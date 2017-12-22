@@ -23,18 +23,18 @@ public class HomeController {
 
 
 
-    //uncomment the below lines and run mvn spring-boot:run to do a cleanup of the database
-
-    @Bean
-    public Flyway flyway(DataSource theDataSource) {
-        Flyway flyway = new Flyway();
-        System.out.println("@@@@@@@@@@ datasource = " + theDataSource);
-        flyway.setDataSource(theDataSource);
-        flyway.setLocations("classpath:db/migration");
-        flyway.clean();
-        flyway.migrate();
-
-        return flyway;
-    }
+//    //uncomment the below lines and run mvn spring-boot:run to do a cleanup of the database
+//
+//    @Bean
+//    public Flyway flyway(DataSource theDataSource) {
+//        Flyway flyway = new Flyway();
+//        System.out.println("@@@@@@@@@@ datasource = " + theDataSource);
+//        flyway.setDataSource(theDataSource);
+//        flyway.setLocations("classpath:db/migration");
+//        flyway.clean();
+//        flyway.migrate();
+//
+//        return flyway;
+//    }
 
 }
