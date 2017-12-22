@@ -50,5 +50,6 @@ public class Main {
 
 
 
-
+//CORS support in the application
+//https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
 

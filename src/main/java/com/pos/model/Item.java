@@ -17,6 +17,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private @lombok.Getter @lombok.Setter Long id;
+    private @lombok.Getter @lombok.Setter String  uid;
     private @lombok.Getter @lombok.Setter String name;
     private @lombok.Getter @lombok.Setter String description;
     @Column(name="created_date")

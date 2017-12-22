@@ -2,6 +2,14 @@
 
 After cloning the app run mvn spring-boot:run from the command line
 
-access http://localhost:8080/v1/items
+Access http://localhost:8080/v1/items in the browser
 
-if prompted for login enter "admin/password" or "user/password" as login details
+
+
+-- To run the app
+
+cd ui
+
+run "npm start"
+
+Access  http://localhost:3000/ in the browser

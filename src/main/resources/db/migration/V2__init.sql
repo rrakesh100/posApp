@@ -29,7 +29,9 @@ CREATE TABLE entity_config (
 -- Items in a store
 DROP TABLE IF EXISTS items cascade;
 CREATE TABLE items (
-  id bigserial PRIMARY KEY,
+  id bigserial,
+  uid bigint PRIMARY KEY,
+  sku text default null,
   name TEXT NOT NULL,
   description TEXT default NULL,
   created_date timestamp without time zone DEFAULT now() NOT NULL
@@ -106,7 +108,7 @@ CREATE TABLE incoming_supplies (
 DROP TABLE IF EXISTS incoming_supply_items;
 CREATE TABLE incoming_supply_items (
   receiving_id serial ,
-  item_id integer NOT NULL DEFAULT '0',
+  item_id bigint NOT NULL DEFAULT '0',
   description text DEFAULT NULL,
   serial_number serial,
   quantity_purchased decimal(15,3) NOT NULL DEFAULT '0',
@@ -116,7 +118,7 @@ CREATE TABLE incoming_supply_items (
   unit_discount_percent decimal(15,2) NOT NULL DEFAULT '0',
   constraint unique_uk_2 unique(receiving_id,item_id),
   constraint foreign_fk_1 foreign key(receiving_id) references incoming_supplies(receiving_id),
-  constraint foreign_fk_2 foreign key(item_id) references items(id)
+  constraint foreign_fk_2 foreign key(item_id) references items(uid)
 );
 
 
@@ -125,22 +127,23 @@ CREATE TABLE incoming_supply_items (
 -- 1 carton box of maggi could contain 50 units
 drop table if exists inventory;
 create table inventory (
-    item_id integer primary key,
+    item_id bigint,
     item_description text default null,
     quantity decimal default '1',
     unit_weight decimal default '0',
     number_of_units integer default '1',
-    constraint foreign_fk_1 foreign key(item_id) references items(id)
+    constraint foreign_fk_1 foreign key(item_id) references items(uid)
 );
 
 -- sales information.
 DROP TABLE IF EXISTS sales cascade;
 CREATE TABLE sales (
-  sale_id serial primary key,
+  sale_id serial,
+  invoice_number bigint primary key,
+  sale_number text default null, -- extra place holder for any other info
   sale_time  timestamp NOT NULL default current_timestamp,
   employee_id integer not null,
   customer_mobile_number integer default '0',
-  invoice_number bigint not null,
   gross_amount decimal not null,
   tax_percent decimal default '0',
   discount decimal not null,
@@ -154,7 +157,7 @@ CREATE TABLE sales (
 -- items contained in a sale
 DROP TABLE IF EXISTS sales_items;
 CREATE TABLE sales_items (
-  sale_id serial ,
+  invoice_number bigint ,
   item_id integer ,
   serial_number integer,
   quantity_purchased decimal not null default '0',
@@ -163,7 +166,7 @@ CREATE TABLE sales_items (
   discount_percent decimal default '0',
   tax_percent decimal default '0',
   total_price decimal default '0',
-  constraint unique_uk_3 unique (sale_id, item_id),
-  constraint foreign_fk_1 foreign key(sale_id) references sales(sale_id),
-  constraint foreign_fk_2 foreign key(item_id) references items(id)
+  constraint unique_uk_3 unique (invoice_number, item_id),
+  constraint foreign_fk_1 foreign key(invoice_number) references sales(invoice_number),
+  constraint foreign_fk_2 foreign key(item_id) references items(uid)
 );
