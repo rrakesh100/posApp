@@ -27,6 +27,13 @@ public class ItemsController {
         return itemsService.getAllItems();
     }
 
+    @GetMapping(value="items/{itemId}")
+    public @ResponseBody Item fetchItem(@PathVariable(value="itemId") String itemId ){
+        Item it =  itemsService.fetchItem(Long.valueOf(itemId));
+        return it;
+    }
+
+
     @PostMapping (value="items")
     public void addItem(@RequestBody ItemType item){
         itemsService.addItem(item);

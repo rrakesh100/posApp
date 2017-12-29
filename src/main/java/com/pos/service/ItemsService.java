@@ -26,6 +26,11 @@ public class ItemsService {
             return (List<Item>) itemsRepository.findAll();
     }
 
+    public Item fetchItem(Long id){
+        return itemsRepository.findOne(id);
+    }
+
+
     public void addItem(ItemType itemJaxb){
         Item item = mapper.map(itemJaxb, Item.class);
         item.setDate(new Date());
