@@ -1,9 +1,12 @@
 package com.pos.controller;
 
+import com.pos.commons.Response;
 import com.pos.model.Item;
 import com.pos.pojos.ItemType;
 import com.pos.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,10 +31,18 @@ public class ItemsController {
     }
 
     @GetMapping(value="items/{itemId}")
-    public @ResponseBody Item fetchItem(@PathVariable(value="itemId") String itemId ){
-        Item it =  itemsService.fetchItem(Long.valueOf(itemId));
+    public @ResponseBody ItemType fetchItem(@PathVariable(value="itemId") String itemId ){
+        ItemType it =  itemsService.fetchItem(Long.valueOf(itemId));
         return it;
     }
+
+    @PutMapping(value="items")
+    public @ResponseBody
+    ResponseEntity<HttpStatus> editItem(@RequestBody ItemType item){
+        itemsService.editItem(item);
+        return new Response<HttpStatus>().noContent().build();
+    }
+
 
 
     @PostMapping (value="items")

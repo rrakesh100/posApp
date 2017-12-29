@@ -19,3 +19,8 @@ export const TASK_UNLOAD = 'TASK_UNLOAD';
 export const NAV_ACTIVATE = 'NAV_ACTIVATE';
 export const NAV_ENABLE = 'NAV_ENABLE';
 export const NAV_RESPONSIVE = 'NAV_RESPONSIVE';
+
+// Dashboard
+export const EMPLOYEES_LOAD = 'EMPLOYEES_LOAD';
+export const EMPLOYEES_UNLOAD = 'EMPLOYEES_UNLOAD';
+export const EMPLOYEES_ADD = 'EMPLOYEES_ADD';

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, IndexRoute } from 'react-router-dom';
 
 import App from 'grommet/components/App';
 import Split from 'grommet/components/Split';
@@ -13,6 +13,12 @@ import Dashboard from '../screens/Dashboard';
 import Tasks from '../screens/Tasks';
 import Task from '../screens/Task';
 import NotFound from '../screens/NotFound';
+import Items from '../screens/items/Items';
+import Item from '../screens/items/Item';
+import Customers from '../screens/customers/Customers';
+import Customer from '../screens/customers/Customer';
+import Employees from '../screens/employees/Employees';
+import Employee from '../screens/employees/Employee';
 
 class Main extends Component {
   constructor() {
@@ -24,11 +30,15 @@ class Main extends Component {
     this.props.dispatch(navResponsive(responsive));
   }
 
+
   render() {
     const {
       nav: { active: navActive, enabled: navEnabled, responsive }
     } = this.props;
     const includeNav = (navActive && navEnabled);
+
+    const dumy = () => (<div>blabla</div>);
+
     let nav;
     if (includeNav) {
       nav = <NavSidebar />;
@@ -50,6 +60,12 @@ class Main extends Component {
               <Route path='/login' component={Login} />
               <Route path='/tasks/:id' component={Task} />
               <Route path='/tasks' component={Tasks} />
+              <Route path='/items' component={Items} />
+              <Route path='/item/:id' component={Item} />
+              <Route path='/customers' component={Customers} />
+              <Route path='/customer/:id' component={Customer} />
+              <Route exact={true} path='/employees' component={Employees} />
+              <Route path='/employee/:id' component={Employee} />
               <Route path='/*' component={NotFound} />
             </Switch>
           </Split>
