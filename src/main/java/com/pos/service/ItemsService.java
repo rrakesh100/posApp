@@ -25,7 +25,7 @@ public class ItemsService {
     private Mapper mapper;
 
     public List<Item> getAllItems(){
-            return (List<Item>) itemsRepository.findAll();
+            return (List<Item>) itemsRepository.findAllByOrderById();
     }
 
     public ItemType fetchItem(Long id){

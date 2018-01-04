@@ -26,21 +26,39 @@ class Item extends React.Component {
   }
 
   componentDidMount(){
-    const { match: { params }, dispatch } = this.props;
-    console.log(params);
-    if(params.id != 0){
+    const { match, dispatch } = this.props;
+    let itemId
+    if(match)
+      itemId = match.params.id
+    else
+      itemId=this.props.itemId;
+
+
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    const { match } = nextProps;
+    let itemId;
+    if(match)
+      itemId=match.params.id;
+    else
+      itemId = nextProps.itemId;
+
+    if(itemId != 0){
       this.setState({
         editFlow: true,
-        id:params.id
+        id:itemId
       })
-      getItem(params.id).then((response) => {
-      console.log(response);
-      this.setState({...response.data});
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
     }
+    getItem(itemId).then((response) => {
+    console.log(response);
+    this.setState({...response.data});
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
   }
 
   onInputEntered(fieldName, e) {
@@ -69,13 +87,15 @@ class Item extends React.Component {
     });
   }else {
     let result = editItem(data);
-    result.then(function (response) {
+    result.then((response) => {
     console.log(response);
+    this.props.onSubmit();
     })
     .catch(function (error) {
       console.log(error);
     });
   }
+  this.setState({});
   }
 
 
@@ -114,7 +134,6 @@ class Item extends React.Component {
 
       <Footer pad={{"vertical": "medium"}}>
         <Button label='Submit'
-        type='submit'
         primary={true}
         onClick={this.onSubmitItem.bind(this)}
         />

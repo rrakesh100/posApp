@@ -34,7 +34,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { error, tasks } = this.props;
+    const { error } = this.props;
     const { intl } = this.context;
 
     let errorNode;
@@ -47,44 +47,6 @@ class Dashboard extends Component {
           state={error.message}
           message='An unexpected error happened, please try again later'
         />
-      );
-    } else if (tasks.length === 0) {
-      listNode = (
-        <Box
-          direction='row'
-          responsive={false}
-          pad={{ between: 'small', horizontal: 'medium', vertical: 'medium' }}
-        >
-          <Spinning /><span>Loading...</span>
-        </Box>
-      );
-    } else {
-      const tasksNode = (tasks || []).map(task => (
-        <ListItem
-          key={`task_${task.id}`}
-          justify='between'
-        >
-          <Label><Anchor path={`/tasks/${task.id}`} label={task.name} /></Label>
-          <Box
-            direction='row'
-            responsive={false}
-            pad={{ between: 'small' }}
-          >
-            <Value
-              value={task.percentComplete}
-              units='%'
-              align='start'
-              size='small'
-            />
-            <Meter value={task.percentComplete} />
-          </Box>
-        </ListItem>
-      ));
-
-      listNode = (
-        <List>
-          {tasksNode}
-        </List>
       );
     }
 
@@ -110,7 +72,6 @@ class Dashboard extends Component {
             of websocket communication.
           </Paragraph>
         </Box>
-        {listNode}
       </Article>
     );
   }
@@ -123,8 +84,7 @@ Dashboard.defaultProps = {
 
 Dashboard.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.object,
-  tasks: PropTypes.arrayOf(PropTypes.object)
+  error: PropTypes.object
 };
 
 Dashboard.contextTypes = {

@@ -17,6 +17,12 @@ import Label from 'grommet/components/Label';
 import Anchor from 'grommet/components/Anchor';
 import { push } from 'react-router-redux';
 import TextInput from 'grommet/components/TextInput';
+import Layer from 'grommet/components/Layer';
+import Edit from 'grommet/components/icons/base/Edit';
+
+import Item from './Item';
+
+
 
 
 
@@ -25,13 +31,18 @@ class Items extends React.Component {
 
   constructor(){
     super();
-    this.state = {};
-    this.onEditClick = this.onEditClick.bind(this);
+    this.state = {
+      showItemModal: false
+    };
 
   }
 
   componentDidMount() {
   //  this.props.dispatch(loaditems());
+    this.loadItems();
+  }
+
+  loadItems() {
     allItems().then((response) => {
       this.setState( {
         items : response.data
@@ -39,7 +50,7 @@ class Items extends React.Component {
         )
     }).catch(
 
-    )
+    );
   }
 
   componentWillUnmount() {
@@ -47,9 +58,54 @@ class Items extends React.Component {
   }
 
 
-  onEditClick(event) {
+  onEditClick(id, event) {
     // event.preventDefault();
     // this.props.dispatch(push(this.props.path));
+    this.setState({
+      showItemModal: true,
+      itemIdForModal: id
+    })
+
+  }
+
+
+  onAdditems() {
+    this.setState({
+      showItemModal: true,
+      itemIdForModal: 0
+    })
+  }
+
+  onCloseModal() {
+    this.setState({
+      showItemModal: false,
+      itemIdForModal: ''
+    });
+  }
+
+  onItemSubmit() {
+    this.setState({
+      showItemModal: false,
+      itemIdForModal: ''
+    }, this.loadItems.bind(this));
+  }
+
+
+  renderItemModal() {
+    const { showItemModal, itemIdForModal } = this.state;
+
+    return (
+      <Layer
+        onClose={this.onCloseModal.bind(this)}
+        className='itemModal'
+        closer={true}
+        hidden={!showItemModal}
+        component={Item}
+        >
+        <Item itemId={itemIdForModal} onSubmit={this.onItemSubmit.bind(this)}/>
+      </Layer>
+
+    )
   }
 
 
@@ -62,12 +118,12 @@ class Items extends React.Component {
     }
     return (
 
-      <div>
+      <div className="items">
       { this.renderToastIfAny() }
+      { this.renderItemModal() }
       <Button
         label='Add Item'
-        onClick={this.onAdditems}
-        href='#'
+        onClick={this.onAdditems.bind(this)}
         primary={true}  />
 
       <Table scrollable={true}>
@@ -98,7 +154,12 @@ class Items extends React.Component {
                 <td>{item.name}</td>
                 <td>{item.sku}</td>
                 <td>{item.description}</td>
-                <td><Label><Anchor path={`/item/${item.id}`} label='Edit' onClick={this.onEditClick} /></Label></td>
+                <td>
+                  <Button icon={<Edit />}
+                    label='Edit'
+                    onClick={this.onEditClick.bind(this, item.id)}
+                    plain={true} />
+              </td>
                 </TableRow>
               })
             }
@@ -120,18 +181,22 @@ class Items extends React.Component {
       status = 'critical';
       clearCallback = clearErrMsg;
       msg=errMsg;
-    } else {
+      return (<Toast status={status}
+        onClose={clearCallback}>
+        {msg}
+      </Toast>);
+    } else if(this.state.successMsg){
       clearCallback = clearSuccessMsg;
       msg=successMsg;
+      return (<Toast status={status}
+        onClose={clearCallback}>
+        {msg}
+      </Toast>);
     }
-    return (<Toast status={status}
-      onClose={clearCallback}>
-      {msg}
-    </Toast>);
 
-
-
+    return null;
   }
+
 }
 
 Items.defaultProps = {
