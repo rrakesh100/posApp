@@ -15,7 +15,6 @@ import Footer from 'grommet/components/Footer';
 import Toast from 'grommet/components/Toast';
 import Label from 'grommet/components/Label';
 import Anchor from 'grommet/components/Anchor';
-import { push } from 'react-router-redux';
 import TextInput from 'grommet/components/TextInput';
 import Layer from 'grommet/components/Layer';
 import Edit from 'grommet/components/icons/base/Edit';
@@ -83,9 +82,17 @@ class Items extends React.Component {
     });
   }
 
-  onItemSubmit() {
+  onItemSubmit(flow , result , itemName) {
+    let successMsg="", errorMsg = "";
+    if(result){
+      successMsg = "Item " +  itemName + (flow == 'add' ? ' added ' : ' edited ') + ' successfully ';
+    }else {
+      successMsg = "Error occured while " + (flow == 'add' ? ' add ' : ' edit ')  +  "ing the Item : " + itemName;
+    }
     this.setState({
       showItemModal: false,
+      successMsg,
+      errorMsg,
       itemIdForModal: ''
     }, this.loadItems.bind(this));
   }
@@ -111,21 +118,19 @@ class Items extends React.Component {
 
   render() {
     const { items, add } = this.state;
-    if(add){
-      return (
-      <h1/>
-      );
-    }
+
     return (
 
       <div className="items">
       { this.renderToastIfAny() }
       { this.renderItemModal() }
-      <Button
-        label='Add Item'
-        onClick={this.onAdditems.bind(this)}
-        primary={true}  />
-
+      <div className="addEntity">
+        <Button
+          label='Add Item'
+          onClick={this.onAdditems.bind(this)}
+          primary={true}  />
+      </div>
+      <div className="table">
       <Table scrollable={true}>
         <thead>
           <tr>
@@ -165,6 +170,7 @@ class Items extends React.Component {
             }
             </tbody>
             </Table>
+            </div>
       </div>
     );
   }

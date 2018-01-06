@@ -14,12 +14,21 @@ import {
 
 class Item extends React.Component {
 
+
+
   constructor(){
     super();
+    this.defaultState = {
+      id: 0,
+      name: '',
+      barcode: '',
+      sku: '',
+      description: ''
+    };
     this.state = {
       editFlow : false,
       id:0
-    }
+    };
     this.onInputEntered = this.onInputEntered.bind(this);
     this.onSubmitItem=this.onSubmitItem.bind(this);
 
@@ -32,8 +41,10 @@ class Item extends React.Component {
       itemId = match.params.id
     else
       itemId=this.props.itemId;
+  }
 
-
+  componentWillUnmount(){
+    this.setState({});
   }
 
 
@@ -50,19 +61,18 @@ class Item extends React.Component {
         editFlow: true,
         id:itemId
       })
+      getItem(itemId).then((response) => {
+      this.setState({...response.data});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }else{
+      this.setState({...this.defaultState});
     }
-    getItem(itemId).then((response) => {
-    console.log(response);
-    this.setState({...response.data});
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
   }
 
   onInputEntered(fieldName, e) {
-    console.log(e);
     this.setState({
       [fieldName]: e.target.value
     });
@@ -79,20 +89,19 @@ class Item extends React.Component {
     }
     if(id == 0) {
     let result = createItem(data);
-    result.then(function (response) {
-    console.log(response);
+    result.then((response) => {
+      this.props.onSubmit('add' , true , data.name )
     })
-    .catch(function (error) {
-      console.log(error);
+    .catch((error) => {
+      this.props.onSubmit('add' , false , data.name );
     });
   }else {
     let result = editItem(data);
     result.then((response) => {
-    console.log(response);
-    this.props.onSubmit();
+    this.props.onSubmit('edit' , true , data.name );
     })
     .catch(function (error) {
-      console.log(error);
+    this.props.onSubmit('edit' , false , data.name );
     });
   }
   this.setState({});
