@@ -14,7 +14,7 @@ const initialState = {
     { path: '/tasks', label: 'BILLING' },
     { path: '/dashboard', label: 'DASHBOARD' },
     { path: '/items', label: 'INVENTORY' },
-    { path: '/dashboard', label: 'PROCUREMENT' },
+    { path: '/procurements', label: 'PROCUREMENTS' },
     { path: '/Dashboard', label: 'SALES' },
     { path: '/employees', label: 'EMPLOYEES' },
     { path: '/customers', label: 'CUSTOMERS' },
