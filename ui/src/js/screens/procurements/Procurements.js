@@ -11,19 +11,98 @@ import Edit from 'grommet/components/icons/base/Edit';
 import Close from 'grommet/components/icons/base/Close';
 import Value from 'grommet/components/Value';
 import Label from 'grommet/components/Label';
-
-
+import Layer from 'grommet/components/Layer';
+import Form from 'grommet/components/Form';
+import Header from 'grommet/components/Header';
+import Footer from 'grommet/components/Footer';
+import Heading from 'grommet/components/Heading';
+import FormField from 'grommet/components/FormField';
+import TextInput from 'grommet/components/TextInput';
 
 class Procurements extends React.Component {
 
    constructor(){
      super();
+     this.addProduct=this.addProduct.bind(this);
+     this.valueEntered=this.valueEntered.bind(this);
+     this.productDetailsAdded=this.productDetailsAdded.bind(this);
+     this.closeLayer=this.closeLayer.bind(this);
+     this.state = {
+       renderAddProduct : false
+     }
+   }
+
+   addProduct(){
+     this.setState({
+       renderAddProduct : true
+     })
+   }
+
+
+   valueEntered(fieldName,e) {
+      console.log(fieldName);
+      console.log(e.target.value);
+      this.setState({
+        [fieldName] : e.target.value
+      }, () => console.log(this.state));
+
+   }
+
+   productDetailsAdded(){
+      this.setState({
+        renderAddProduct : false
+      });
+   }
+
+   closeLayer(){
+     this.setState({
+       renderAddProduct : false
+     });
+   }
+
+
+   renderAddProduct() {
+     const { renderAddProduct } = this.state;
+     if(renderAddProduct){
+       return (
+         <Layer closer={true}
+          flush={true} onClose={this.closeLayer.bind(this)}>
+          <Form>
+            <Header>
+              <Heading>
+                Product details ...
+              </Heading>
+            </Header>
+              <div>
+                    <FormField label='Enter quantity'>
+                       <TextInput name="quantity" onDOMChange={this.valueEntered.bind(this, 'quantity')} />
+                    </FormField>
+                    <FormField label='Enter cost price'>
+                        <TextInput name="quantity" onDOMChange={this.valueEntered.bind(this, 'costprice')} />
+                    </FormField>
+                    <FormField label='Enter selling price per unit'>
+                        <TextInput name="quantity" onDOMChange={this.valueEntered.bind(this, 'sellingprice')} />
+                    </FormField>
+              </div>
+            <Footer pad={{"vertical": "medium"}}>
+              <Button label='Submit'
+                type='submit'
+                primary={true} onClick={this.productDetailsAdded.bind(this)}
+               />
+            </Footer>
+            </Form>
+            </Layer>
+       )
+     }else {
+       return null;
+     }
    }
 
    render(){
      const items = [];
      return(
        <div className="procurements">
+          { this.renderAddProduct() }
            <div className="dateField">
            <Label size="medium">Select date
              <DateTime id='id'
@@ -53,7 +132,10 @@ class Procurements extends React.Component {
                suggestions={['Colgate', 'Maggie', 'Lalitha rice', 'Aashirvad Atta']} />
                <Button  className="addProduct" icon={<Add />}
                label='Add'
-               href='#' />
+               href='#'  onClick={this.addProduct}/>
+
+
+
             </Label>
             </div>
             <div className="tableSummary">
