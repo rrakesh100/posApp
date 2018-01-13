@@ -15,7 +15,6 @@ import Footer from 'grommet/components/Footer';
 import Toast from 'grommet/components/Toast';
 import Label from 'grommet/components/Label';
 import Anchor from 'grommet/components/Anchor';
-import { push } from 'react-router-redux';
 
 
 
