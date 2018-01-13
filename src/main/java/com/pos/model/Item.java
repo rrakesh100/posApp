@@ -1,5 +1,7 @@
 package com.pos.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -13,17 +15,27 @@ import java.util.Date;
 @Table(name="items")
 public class Item {
 
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private @lombok.Getter @lombok.Setter Long id;
-    private @lombok.Getter @lombok.Setter Long  uid;
-    private @lombok.Getter @lombok.Setter String name;
-    private @lombok.Getter @lombok.Setter String description;
-    private @lombok.Getter @lombok.Setter String  sku;
+    @Getter
+    @Setter
+    private Long id;
+    @Getter
+    @Setter
+    private Long uid;
+    @Getter
+    @Setter
+    private String name;
+    @Getter
+    @Setter
+    private String description;
+    @Getter
+    @Setter
+    private String  sku;
     @Column(name="created_date")
-    private @lombok.Getter @lombok.Setter
-    Date date;
+    @Getter
+    @Setter
+    private Date date;
 
 
 }

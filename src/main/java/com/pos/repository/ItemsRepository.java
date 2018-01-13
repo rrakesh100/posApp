@@ -18,8 +18,10 @@ public interface ItemsRepository extends CrudRepository<Item,Long> {
     @Transactional(readOnly=true)
     List<Item> findAllByOrderById();
 
+  List<Item> findAllBySearchPattern(String searchPattern);
 
-    // custom query example and return a stream
+
+  // custom query example and return a stream
 //    @Query("select c from Customer c where c.email = :email")
 //    Stream<Customer> findByEmailReturnStream(@Param("email") String email);
 }

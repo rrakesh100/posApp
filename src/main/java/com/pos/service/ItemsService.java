@@ -1,12 +1,10 @@
 package com.pos.service;
 
 import com.pos.model.Item;
-import com.pos.pojos.ItemType;
+import com.pos.pojos.XItemType;
 import com.pos.repository.ItemsRepository;
 import org.dozer.Mapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,41 +22,42 @@ public class ItemsService {
     @Autowired
     private Mapper mapper;
 
-    public List<Item> getAllItems(){
-            return (List<Item>) itemsRepository.findAllByOrderById();
+    public List<XItemType> getAllItems(){
+        List<Item> itemList = itemsRepository.findAllByOrderById();
+        List<XItemType> xItemTypeList = new ArrayList<>();
+        for(Item item : itemList) {
+            XItemType xItemType = mapper.map(item, XItemType.class);
+            xItemTypeList.add(xItemType);
+        }
+        return xItemTypeList;
     }
 
-    public ItemType fetchItem(Long id){
+    public XItemType fetchItem(Long id){
         Item itemFromRepo = itemsRepository.findOne(id);
-        return mapper.map(itemFromRepo, ItemType.class);
-
+        return mapper.map(itemFromRepo, XItemType.class);
     }
 
-    public void editItem(ItemType item){
+    public void editItem(XItemType item){
         Item itemFromRequest = mapper.map(item, Item.class);
         Item itemFromRepo = itemsRepository.findOne(item.getId());
-        BeanUtils.copyProperties(itemFromRepo,itemFromRequest, getNullPropertyNames(itemFromRequest) );
+        BeanUtils.copyProperties(itemFromRepo,itemFromRequest, ServiceUtils.getNullPropertyNames(itemFromRequest) );
         itemsRepository.save(itemFromRequest);
     }
 
-    public void addItem(ItemType itemJaxb){
-        Item item = mapper.map(itemJaxb, Item.class);
+    public void addItem(XItemType xItemType){
+        Item item = mapper.map(xItemType, Item.class);
         item.setDate(new Date());
         System.out.println(item);
         itemsRepository.save(item);
     }
 
-    private String[] getNullPropertyNames (Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
-        List<String> emptyNames = new ArrayList();
-        for(java.beans.PropertyDescriptor pd : pds) {
-            //check if value of this property is null then add it to the collection
-            Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue != null) emptyNames.add(pd.getName());
+    public List<XItemType> getAllItems(String searchPattern) {
+        List<Item> itemList = itemsRepository.findAllBySearchPattern(searchPattern);
+        List<XItemType> xItemTypeList = new ArrayList<>();
+        for(Item item : itemList) {
+            XItemType xItemType = mapper.map(item, XItemType.class);
+            xItemTypeList.add(xItemType);
         }
-        String[] result = new String[emptyNames.size()];
-        return  emptyNames.toArray(result);
+        return xItemTypeList;
     }
 }
