@@ -2,7 +2,7 @@ package com.pos.controller;
 
 import com.pos.commons.Response;
 import com.pos.model.Item;
-import com.pos.pojos.ItemType;
+import com.pos.pojos.ItemJaxb;
 import com.pos.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,14 +31,15 @@ public class ItemsController {
     }
 
     @GetMapping(value="items/{itemId}")
-    public @ResponseBody ItemType fetchItem(@PathVariable(value="itemId") String itemId ){
-        ItemType it =  itemsService.fetchItem(Long.valueOf(itemId));
+    public @ResponseBody
+    ItemJaxb fetchItem(@PathVariable(value="itemId") String itemId ){
+        ItemJaxb it =  itemsService.fetchItem(Long.valueOf(itemId));
         return it;
     }
 
     @PutMapping(value="items")
     public @ResponseBody
-    ResponseEntity<HttpStatus> editItem(@RequestBody ItemType item){
+    ResponseEntity<HttpStatus> editItem(@RequestBody ItemJaxb item){
         itemsService.editItem(item);
         return new Response<HttpStatus>().noContent().build();
     }
@@ -46,7 +47,7 @@ public class ItemsController {
 
 
     @PostMapping (value="items")
-    public void addItem(@RequestBody ItemType item){
+    public void addItem(@RequestBody ItemJaxb item){
         itemsService.addItem(item);
     }
 

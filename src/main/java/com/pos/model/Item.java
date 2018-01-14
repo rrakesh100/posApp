@@ -16,8 +16,9 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private @lombok.Getter @lombok.Setter Long id;
-    private @lombok.Getter @lombok.Setter Long  uid;
+    private @lombok.Getter @lombok.Setter long id;
+    private @lombok.Getter @lombok.Setter long  uid;
+    private @lombok.Getter @lombok.Setter double  price;
     private @lombok.Getter @lombok.Setter String name;
     private @lombok.Getter @lombok.Setter String description;
     private @lombok.Getter @lombok.Setter String  sku;

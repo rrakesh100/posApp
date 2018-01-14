@@ -1,7 +1,7 @@
 package com.pos.service;
 
 import com.pos.model.Item;
-import com.pos.pojos.ItemType;
+import com.pos.pojos.ItemJaxb;
 import com.pos.repository.ItemsRepository;
 import org.dozer.Mapper;
 import org.springframework.beans.BeanUtils;
@@ -28,20 +28,20 @@ public class ItemsService {
             return (List<Item>) itemsRepository.findAllByOrderById();
     }
 
-    public ItemType fetchItem(Long id){
+    public ItemJaxb fetchItem(Long id){
         Item itemFromRepo = itemsRepository.findOne(id);
-        return mapper.map(itemFromRepo, ItemType.class);
+        return mapper.map(itemFromRepo, ItemJaxb.class);
 
     }
 
-    public void editItem(ItemType item){
+    public void editItem(ItemJaxb item){
         Item itemFromRequest = mapper.map(item, Item.class);
         Item itemFromRepo = itemsRepository.findOne(item.getId());
         BeanUtils.copyProperties(itemFromRepo,itemFromRequest, getNullPropertyNames(itemFromRequest) );
         itemsRepository.save(itemFromRequest);
     }
 
-    public void addItem(ItemType itemJaxb){
+    public void addItem(ItemJaxb itemJaxb){
         Item item = mapper.map(itemJaxb, Item.class);
         item.setDate(new Date());
         System.out.println(item);

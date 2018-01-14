@@ -22,6 +22,7 @@ class Item extends React.Component {
       id: 0,
       name: '',
       barcode: '',
+      price:'',
       sku: '',
       description: ''
     };
@@ -79,10 +80,11 @@ class Item extends React.Component {
   }
 
   onSubmitItem(){
-    const { id, name, barcode, sku, description } = this.state;
+    const { id, name, price, barcode, sku, description } = this.state;
     const data = {
       id,
       name,
+      price,
       description,
       barcode,
       sku: sku
@@ -124,6 +126,13 @@ class Item extends React.Component {
               value={this.state.barcode}
             />
             </FormField>
+            <FormField label="Price">
+              <TextInput id='item5'
+                name='barCode'
+                onDOMChange={this.onInputEntered.bind(this, 'price' )}
+                value={this.state.price}
+              />
+              </FormField>
 
           <FormField label="Stock keeping unit (SKU)">
             <TextInput id='item3'
