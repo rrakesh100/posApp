@@ -31,7 +31,8 @@ class Items extends React.Component {
   constructor(){
     super();
     this.state = {
-      showItemModal: false
+      showItemModal: false,
+      items: []
     };
 
   }
@@ -42,6 +43,7 @@ class Items extends React.Component {
   }
 
   loadItems() {
+
     allItems().then((response) => {
       this.setState( {
         items : response.data
@@ -141,6 +143,9 @@ class Items extends React.Component {
           Name
           </th>
           <th>
+          Price
+          </th>
+          <th>
           SKU
           </th>
           <th>
@@ -153,10 +158,11 @@ class Items extends React.Component {
           </thead>
           <tbody>
             {
-              items.map((item) => {
+              items.map((item, index) => {
                 return <TableRow>
-                <td>{item.id}</td>
+                <td>{index+1}</td>
                 <td>{item.name}</td>
+                <td>{item.price}</td>
                 <td>{item.sku}</td>
                 <td>{item.description}</td>
                 <td>
