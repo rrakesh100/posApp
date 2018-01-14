@@ -31,7 +31,8 @@ class Items extends React.Component {
   constructor(){
     super();
     this.state = {
-      showItemModal: false
+      showItemModal: false,
+      items: []
     };
 
   }
