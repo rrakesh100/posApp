@@ -62,6 +62,11 @@ class Procurements extends React.Component {
      }
    }
 
+
+   // componentWillUnmount(){
+   //   this.forceUpdate();
+   // }
+
    addProduct(){
      this.setState({
        renderAddProduct : true
@@ -201,7 +206,7 @@ class Procurements extends React.Component {
          <SearchInput placeHolder='Search' onDOMChange={this.valueEntered.bind(this, 'supplierName')}
             onSelect={this.fieldEntered.bind(this, 'supplierName' )} value={this.state.procurementDetails.supplierName}
             suggestions={supplierOptions} />
-            </Label>
+          </Label>
          </div>
          <div className="payment">
          <Label size="medium">Type of payment

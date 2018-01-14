@@ -11,7 +11,7 @@ const initialState = {
   enabled: true, // start with nav disabled
   responsive: 'multiple',
   items: [
-    { path: '/tasks', label: 'BILLING' },
+    { path: '/billing', label: 'BILLING' },
     { path: '/dashboard', label: 'DASHBOARD' },
     { path: '/items', label: 'Items' },
     { path: '/procurements', label: 'PROCUREMENTS' },

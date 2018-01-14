@@ -20,6 +20,7 @@ import Customer from '../screens/customers/Customer';
 import Employees from '../screens/employees/Employees';
 import Employee from '../screens/employees/Employee';
 import Procurement from '../screens/procurements/Procurements'
+import Billing from '../screens/billing/Billing'
 
 class Main extends Component {
   constructor() {
@@ -68,6 +69,7 @@ class Main extends Component {
               <Route exact={true} path='/employees' component={Employees} />
               <Route path='/employee/:id' component={Employee} />
               <Route path='/procurements' component={Procurement} />
+              <Route path='/billing' component={Billing} />
               <Route path='/*' component={NotFound} />
             </Switch>
           </Split>

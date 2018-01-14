@@ -33,7 +33,6 @@ class Employees extends React.Component {
     this.onSubmitEmployee=this.onSubmitEmployee.bind(this);
     this.state = {};
     this.onEditClick = this.onEditClick.bind(this);
-
   }
 
   onAddEmployee(){
@@ -42,27 +41,27 @@ class Employees extends React.Component {
   }
 
   onSubmitEmployee(){
-    const { productName, barCode, sku, description } = this.state;
-    const data = {
-      name : productName,
-      description : description,
-      barcode : barCode,
-      sku: sku
-    }
-    let result = saveEmployee(data);
-    result.then(function (response) {
-    console.log(response);
-    // this.setState({
-    //   successMsg: `Product ${productName} has been successfully added.`
-    // })
-  })
-  .catch(function (error) {
-    console.log(error);
-    //
-    // this.setState({
-    //   errMsg: `Uanbled to add ${productName}.`
-    // })
-  });
+      const { productName, barCode, sku, description } = this.state;
+      const data = {
+        name : productName,
+        description : description,
+        barcode : barCode,
+        sku: sku
+      }
+      let result = saveEmployee(data);
+      result.then(function (response) {
+      console.log(response);
+      // this.setState({
+      //   successMsg: `Product ${productName} has been successfully added.`
+      // })
+    })
+    .catch(function (error) {
+      console.log(error);
+      //
+      // this.setState({
+      //   errMsg: `Uanbled to add ${productName}.`
+      // })
+    });
   }
 
   componentDidMount() {
