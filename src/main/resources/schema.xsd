@@ -7,7 +7,7 @@
         </xsd:appinfo>
     </xsd:annotation>
 
-    <xsd:complexType name="itemJaxb">
+    <xsd:complexType name="x_item_type">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long"/>
             <xsd:element name="barcode" type="xsd:long"/>
@@ -18,6 +18,53 @@
             <xsd:element name="createdDate" type="xsd:dateTime"/>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:element name="itemJaxb" type="itemJaxb">
-    </xsd:element>
+
+    <xsd:element name="x_item_type" type="x_item_type"/>
+
+    <xsd:complexType name="x_procurement">
+        <xsd:sequence>
+            <xsd:element name="procurement_id" type="xsd:long"/>
+            <xsd:element name="time" type="xsd:dateTime"/>
+            <xsd:element name="comment" type="xsd:string"/>
+            <xsd:element name="payment_type" type="xsd:string"/>
+            <xsd:element name="payment_amount" type="xsd:double"/>
+            <xsd:element name="procurement_items" type="x_procurement_items" maxOccurs="1" minOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="x_procurement" type="x_procurement"/>
+
+    <xsd:complexType name="x_supplier">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:long"/>
+            <xsd:element name="mobile_number" type="xsd:long"/>
+            <xsd:element name="company_name" type="xsd:string"/>
+            <xsd:element name="agency_name" type="xsd:string"/>
+            <xsd:element name="description" type="xsd:string"/>
+            <xsd:element name="deleted" type="xsd:boolean"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="x_supplier" type="x_supplier"/>
+
+    <xsd:complexType name="x_procurement_items">
+        <xsd:sequence>
+        <xsd:element name="procurement_item" type="x_procurement_item"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="x_procurement_item">
+        <xsd:sequence>
+            <xsd:element name="procurement_id" type="xsd:long"/>
+            <xsd:element name="item_id" type="xsd:long"/>
+            <xsd:element name="description" type="xsd:string"/>
+            <xsd:element name="employee_id" type="xsd:long"/>
+            <xsd:element name="serial_number" type="xsd:long"/>
+            <xsd:element name="quantity_purchased" type="xsd:double"/>
+            <xsd:element name="number_of_units" type="xsd:long"/>
+            <xsd:element name="item_cost_price" type="xsd:double"/>
+            <xsd:element name="item_unit_price" type="xsd:double"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
 </xsd:schema>
