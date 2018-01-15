@@ -12,12 +12,12 @@ const initialState = {
   responsive: 'multiple',
   items: [
     { path: '/billing', label: 'BILLING' },
-    { path: '/dashboard', label: 'DASHBOARD' },
-    { path: '/items', label: 'Items' },
+    { path: '/items', label: 'ITEMS' },
     { path: '/procurements', label: 'PROCUREMENTS' },
     { path: '/Dashboard', label: 'SALES' },
     { path: '/employees', label: 'EMPLOYEES' },
     { path: '/customers', label: 'CUSTOMERS' },
+    { path: '/dashboard', label: 'REPORTS' }
   ]
 };
 
