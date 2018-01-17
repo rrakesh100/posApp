@@ -1,11 +1,15 @@
 package com.pos.repository;
 
 import com.pos.model.Item;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rrampall on 19/12/17.
@@ -18,7 +22,8 @@ public interface ItemsRepository extends CrudRepository<Item,Long> {
     @Transactional(readOnly=true)
     List<Item> findAllByOrderById();
 
-  List<Item> findAllBySearchPattern(String searchPattern);
+  @Query("select name, id from Item i where i.name like ':searchPattern'")
+  Map<String, Long> findNameBySearchPattern(@Param("searchPattern") String searchPattern);
 
 
   // custom query example and return a stream

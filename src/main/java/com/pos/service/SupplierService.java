@@ -2,6 +2,7 @@ package com.pos.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.dozer.Mapper;
 import org.springframework.beans.BeanUtils;
@@ -50,14 +51,11 @@ public class SupplierService {
     suppliersRepository.save(supplier);
   }
 
-  //@TODO Might need only name and id here
-  public List<XSupplier> getAllSuppliers(String searchPattern) {
-    List<Supplier> suppliersList = suppliersRepository.findAllBySearchPattern(searchPattern);
-    List<XSupplier> xSupplierList = new ArrayList<>();
-    for(Supplier supplier : suppliersList) {
-      XSupplier xSupplier = mapper.map(supplier, XSupplier.class);
-      xSupplierList.add(xSupplier);
-    }
-    return xSupplierList;
+  /*
+  * @param searchPattern : supplier name pattern
+  * @return : Map of Supplier name to Supplier Id
+  * */
+  public Map<String, Long> getSupplierNameAndIdMapping(String searchPattern) {
+    return suppliersRepository.findNameBySearchPattern(searchPattern);
   }
 }

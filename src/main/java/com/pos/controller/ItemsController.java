@@ -1,8 +1,7 @@
 package com.pos.controller;
 
 import com.pos.commons.Response;
-import com.pos.model.Item;
-import com.pos.pojos.XItemType;
+import com.pos.pojos.XItem;
 import com.pos.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rrampall on 19/12/17.
@@ -25,32 +25,32 @@ public class ItemsController {
     private ItemsService itemsService;
 
     @GetMapping(value="items")
-    public List<XItemType> listAll(){
+    public List<XItem> listAll(){
         return itemsService.getAllItems();
     }
 
     @GetMapping(value="items/{itemId}")
-    public @ResponseBody XItemType fetchItem(@PathVariable(value="itemId") String itemId ){
-        XItemType it =  itemsService.fetchItem(Long.valueOf(itemId));
+    public @ResponseBody XItem fetchItem(@PathVariable(value="itemId") String itemId ){
+        XItem it =  itemsService.fetchItem(Long.valueOf(itemId));
         return it;
     }
 
     @PutMapping(value="items")
     public @ResponseBody
-    ResponseEntity<HttpStatus> editItem(@RequestBody XItemType item){
+    ResponseEntity<HttpStatus> editItem(@RequestBody XItem item){
         itemsService.editItem(item);
         return new Response<HttpStatus>().noContent().build();
     }
 
     @PostMapping (value="items")
-    public void addItem(@RequestBody XItemType item){
+    public void addItem(@RequestBody XItem item){
         itemsService.addItem(item);
     }
 
-    @GetMapping(value="items")
-    public @ResponseBody List<XItemType> getFilteredItems(@RequestParam(required = false, defaultValue = "*") String searchPattern) {
-        return itemsService.getAllItems(searchPattern);
+    @GetMapping(value="filteredItems")
+    public @ResponseBody
+    Map<String, Long> getFilteredItems(@RequestParam(value="searchPattern") String searchPattern) {
+        return itemsService.getSupplierNameAndIdMapping(searchPattern);
     }
 }
 //when to use response body
-//map<date,list<long>> ?

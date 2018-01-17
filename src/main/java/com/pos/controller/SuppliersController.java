@@ -1,6 +1,7 @@
 package com.pos.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,8 +43,9 @@ public class SuppliersController {
     supplierService.addSupplier(supplier);
   }
 
-  @GetMapping(value="suppliers")
-  public @ResponseBody List<XSupplier> getFilteredSuppliers(@RequestParam(required = false, defaultValue = "*") String searchPattern) {
-    return supplierService.getAllSuppliers(searchPattern);
+  @GetMapping(value="filteredSuppliers")
+  public @ResponseBody Map<String, Long> getFilteredSuppliers(@RequestParam(value="searchPattern")
+    String searchPattern) {
+    return supplierService.getSupplierNameAndIdMapping(searchPattern);
   }
 }

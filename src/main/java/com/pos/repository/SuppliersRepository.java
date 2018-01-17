@@ -1,8 +1,11 @@
 package com.pos.repository;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pos.model.Supplier;
@@ -12,12 +15,13 @@ import com.pos.model.Supplier;
  */
 public interface SuppliersRepository extends CrudRepository<Supplier,Long> {
 
-  List<Supplier> findByName(String name);
+  List<Supplier> findByAgencyName(String agencyName);
 
   //https://stackoverflow.com/questions/20374437/jpa-query-creation-order-by
   @Transactional(readOnly = true)
   List<Supplier> findAllByOrderById();
 
-  List<Supplier> findAllBySearchPattern(String searchPattern);
+  @Query("select agencyName, id from Supplier s where s.agencyName like ':searchPattern'")
+  Map<String, Long> findNameBySearchPattern(@Param("searchPattern") String searchPattern);
 
 }

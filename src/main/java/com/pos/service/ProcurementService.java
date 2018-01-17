@@ -25,8 +25,8 @@ public class ProcurementService {
   @Autowired
   private Mapper mapper;
 
-  public Map<Date, List<Long>> getAllProcurements() {
-    return procurementsRepository.findAllByOrderbyDate();
+  public Map<Date, Long> getAllProcurementIds() {
+    return procurementsRepository.findAllProcurementIds();
   }
 
   public XProcurement fetchProcurement(Long procurementId) {
@@ -47,4 +47,11 @@ public class ProcurementService {
     procurementsRepository.save(procurement);
   }
 
+  /*
+* @param date : date
+* @return : Map of date to Procurement Id
+* */
+  public Map<Date, Long> getProcurementDateAndIdMapping(String date) {
+    return procurementsRepository.findNameBySearchPattern(date);
+  }
 }

@@ -6,7 +6,7 @@
 
   <mapping>
     <class-a>com.pos.model.Item</class-a>
-    <class-b>com.pos.pojos.XItemType</class-b>
+    <class-b>com.pos.pojos.XItem</class-b>
     <field>
       <a>uid</a>
       <b>barcode</b>

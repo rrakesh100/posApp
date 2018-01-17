@@ -27,8 +27,8 @@ public class ProcurementsController {
   private ProcurementService procurementService;
 
   @GetMapping(value="procurements")
-  public Map<Date, List<Long>> listAll(){
-    return procurementService.getAllProcurements();
+  public Map<Date, Long> getAllProcurements(){
+    return procurementService.getAllProcurementIds();
   }
 
   @GetMapping(value="procurements/{procurementId}")
@@ -46,5 +46,11 @@ public class ProcurementsController {
   @PostMapping (value="procurements")
   public void addItem(@RequestBody XProcurement xProcurement){
     procurementService.addProcurement(xProcurement);
+  }
+
+  @GetMapping(value="filteredProcurements")
+  public @ResponseBody Map<Date, Long> getFilteredProcurements(@RequestParam(value="searchPattern")
+    String date) {
+    return procurementService.getProcurementDateAndIdMapping(date);
   }
 }
