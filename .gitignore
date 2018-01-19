@@ -1,6 +1,8 @@
 /*.iml
 target/
 
+ui/dist/
+ui/dist-server/
 ui/coverage/
 ui/node_modules/
 node_modules/
