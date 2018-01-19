@@ -8,6 +8,7 @@ import Split from 'grommet/components/Split';
 import NavSidebar from './NavSidebar';
 import { navResponsive } from '../actions/nav';
 
+import Billing from '../screens/billing/Billing';
 import Login from '../screens/Login';
 import Dashboard from '../screens/Dashboard';
 import Tasks from '../screens/Tasks';
@@ -19,8 +20,7 @@ import Customers from '../screens/customers/Customers';
 import Customer from '../screens/customers/Customer';
 import Employees from '../screens/employees/Employees';
 import Employee from '../screens/employees/Employee';
-import Procurement from '../screens/procurements/Procurements'
-import Billing from '../screens/billing/Billing'
+import Procurement from '../screens/procurements/Procurements';
 
 class Main extends Component {
   constructor() {
