@@ -26,7 +26,7 @@ class Customer extends React.Component {
     const { connection } = this.state;
     setInterval( _ =>{
          connection.send(JSON.stringify( { name : 'name - ' + Math.random() ,
-                       value : 'value - ' + Math.random()}));
+                       value :  Math.random()}));
      }, 10000 )
 
   }

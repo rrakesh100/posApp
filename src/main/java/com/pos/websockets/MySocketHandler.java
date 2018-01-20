@@ -7,6 +7,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -27,7 +28,7 @@ public class MySocketHandler extends TextWebSocketHandler {
         for(WebSocketSession webSocketSession : sessions) {
             Map value = new Gson().fromJson(message.getPayload(), Map.class);
             try{
-                webSocketSession.sendMessage(new TextMessage("name = " + value.get("name") + "  ||  " + "value = " + value.get("value")));
+                webSocketSession.sendMessage(new TextMessage("value = " + value.get("value") +  "|| @ " + new Date().toString()));
 
             }catch (Exception e) {
                 System.out.println("###################################");
@@ -39,9 +40,8 @@ public class MySocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        //the messages will be broadcasted to all users.
         sessions.add(session);
-        System.out.println("###################################");
+        System.out.println("Adding ....");
         System.out.println(session);
 
     }
