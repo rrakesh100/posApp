@@ -53,7 +53,7 @@ class Login extends Component {
             justify='center'
             align='center'
           >
-            <Heading tag='h1' strong={true}>MRP POS</Heading>
+            <Heading tag='h1' strong={true}>POS</Heading>
             <Paragraph align='center' size='large'>
               prettiest POS solution in the market
             </Paragraph>
@@ -64,7 +64,7 @@ class Login extends Component {
           <span />
           <LoginForm
             align='center'
-            title='MRP POS'
+            title='POS'
             onSubmit={this._onSubmit}
             errors={[error]}
             usernameType='text'

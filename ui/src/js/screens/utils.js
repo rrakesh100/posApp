@@ -1,6 +1,6 @@
 import { announcePageLoaded } from 'grommet/utils/Announcer';
 
-const DEFAULT_TITLE = 'MRP POS';
+const DEFAULT_TITLE = 'POS';
 
 export function pageLoaded(title) {
   if (document) {
