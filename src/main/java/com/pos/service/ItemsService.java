@@ -55,7 +55,7 @@ public class ItemsService {
   * @param searchPattern : item name pattern
   * @return : Map of Item name to Item Id
   * */
-    public Map<String, Long> getSupplierNameAndIdMapping(String searchPattern) {
+    public Map<String, Long> getNameAndIdMapping(String searchPattern) {
         return itemsRepository.findNameIdBySearchPattern(searchPattern);
     }
 }

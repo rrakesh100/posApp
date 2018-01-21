@@ -1,11 +1,8 @@
 package com.pos.controller;
 
 import com.pos.commons.Response;
-import com.pos.model.Customer;
 import com.pos.pojos.XCustomer;
-import com.pos.pojos.XItem;
 import com.pos.service.CustomerService;
-import com.pos.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,21 +27,21 @@ public class CustomersController {
 
     @GetMapping(value="customers/{mobileNumber}")
     public @ResponseBody
-    XCustomer fetchItem(@PathVariable(value="mobileNumber") String mobileNumber ){
+    XCustomer fetchCustomer(@PathVariable(value="mobileNumber") String mobileNumber ){
         return customerService.fetchCustomer(Long.valueOf(mobileNumber));
     }
-//
-//    @PutMapping(value="customers")
-//    public @ResponseBody
-//    ResponseEntity<HttpStatus> editCustomer(@RequestBody XCus item){
-//        customerService.editCustomer(item);
-//        return new Response<HttpStatus>().noContent().build();
-//    }
-//
-//    @PostMapping (value="items")
-//    public void addItem(@RequestBody XItem item){
-//        itemsService.addItem(item);
-//    }
+
+    @PutMapping(value="customers")
+    public @ResponseBody
+    ResponseEntity<HttpStatus> editCustomer(@RequestBody XCustomer xCustomer){
+        customerService.editCustomer(xCustomer);
+        return new Response<HttpStatus>().noContent().build();
+    }
+
+    @PostMapping (value="customers")
+    public void addCustomer(@RequestBody XCustomer xCustomer){
+        customerService.addCustomer(xCustomer);
+    }
 
     @GetMapping(value="filteredCustomers")
     public @ResponseBody

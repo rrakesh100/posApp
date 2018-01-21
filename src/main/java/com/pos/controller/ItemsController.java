@@ -50,7 +50,7 @@ public class ItemsController {
     @GetMapping(value="filteredItems")
     public @ResponseBody
     Map<String, Long> getFilteredItems(@RequestParam(value="searchPattern") String searchPattern) {
-        return itemsService.getSupplierNameAndIdMapping(searchPattern);
+        return itemsService.getNameAndIdMapping(searchPattern);
     }
 }
 //when to use response body

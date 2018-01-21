@@ -1,15 +1,13 @@
 package com.pos.service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.pos.model.Customer;
 import com.pos.pojos.XCustomer;
 import com.pos.repository.CustomersRepository;
-import sun.awt.X11.XChoicePeer;
 
 import org.dozer.Mapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -28,13 +26,23 @@ public class CustomerService {
       return mapper.map(customerFromRepo, XCustomer.class);
     }
 
-  /*
-* @param  searchPattern: date
-* @return : Map of date to Procurement Id
-* */
+  public void editCustomer(XCustomer xCustomer){
+    Customer customerFromRequest = mapper.map(xCustomer, Customer.class);
+    Customer customerFromRepo = customersRepository.findOne(customerFromRequest.getMobileNumber());
+    BeanUtils.copyProperties(customerFromRepo,customerFromRequest, ServiceUtils.getNullPropertyNames(customerFromRequest) );
+    customersRepository.save(customerFromRequest);
+  }
+
+  public void addCustomer(XCustomer xCustomer){
+    Customer customer = mapper.map(xCustomer, Customer.class);
+    System.out.println(customer);
+    customersRepository.save(customer);
+  }
+    /*
+  * @param  searchPattern: Mobile No
+  * @return : List of Mobile No's matching the pattern
+  * */
   public List<Long> getMobileNumberList(String searchPattern) {
     return customersRepository.findMobileNumberBySearchPattern(searchPattern);
   }
-
-
 }
