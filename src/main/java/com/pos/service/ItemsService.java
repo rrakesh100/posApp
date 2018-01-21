@@ -64,6 +64,7 @@ public class ItemsService {
 
         List<Item> allItems  = new ArrayList<>();
         allItems.addAll(namesList);
+        //TODO Important handle the scenario where an item could feature in both name search and SKU search
         allItems.addAll(skuList);
 
         List<XItem> xItemList = new ArrayList<>();
