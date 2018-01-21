@@ -9,10 +9,12 @@ import com.pos.repository.CustomersRepository;
 import org.dozer.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by rrampall on 18/12/17.
  */
+@Service
 public class CustomerService {
 
     @Autowired
@@ -21,7 +23,7 @@ public class CustomerService {
     @Autowired
     private Mapper mapper;
 
-    public XCustomer fetchCustomer(Long mobileNumber) {
+    public XCustomer fetchCustomer(String mobileNumber) {
       Customer customerFromRepo = customersRepository.findOne(mobileNumber);
       return mapper.map(customerFromRepo, XCustomer.class);
     }
@@ -42,7 +44,9 @@ public class CustomerService {
   * @param  searchPattern: Mobile No
   * @return : List of Mobile No's matching the pattern
   * */
-  public List<Long> getMobileNumberList(String searchPattern) {
-    return customersRepository.findMobileNumberBySearchPattern(searchPattern);
+  public List<String> getMobileNumberList(String searchPattern) {
+    List<String> mobs =  customersRepository.findMobileNumberBySearchPattern(searchPattern + "%");
+      System.out.println(mobs);
+      return mobs;
   }
 }

@@ -16,7 +16,7 @@ public class Customer {
     @Getter @Setter
     @Column(name="mobile_number")
     @Id
-    private Long mobileNumber;
+    private String mobileNumber;
     @Getter @Setter
     private String name;
     @Getter @Setter

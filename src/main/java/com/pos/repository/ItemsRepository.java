@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by rrampall on 19/12/17.
  */
-public interface ItemsRepository extends CrudRepository<Item,Long> {
+public interface ItemsRepository extends CrudRepository<Item,String> {
 
     List<Item> findByName(String name);
 
@@ -22,11 +22,33 @@ public interface ItemsRepository extends CrudRepository<Item,Long> {
     @Transactional(readOnly=true)
     List<Item> findAllByOrderById();
 
-  @Query("select name, id from Item i where i.name like ':searchPattern'")
-  Map<String, Long> findNameIdBySearchPattern(@Param("searchPattern") String searchPattern);
+
+    /*
+       spring jpa is expecting as for each column why ??
+
+      o/p for searchpattern=god will be something like
+
+        {"uid":"100200300401","name":"godavaririceandi"}
+
+        But we want { "100200300401": "godavaririceandi" }
+
+      @Query("select i.name as name, i.uid as uid from Item i where i.name like (:searchPattern)")
+      Map<String,String> findNameIdBySearchPattern(@Param("searchPattern") String searchPattern);
+
+      */
+
+    @Query("select i from Item i where i.name like (:searchPattern)")
+    List<Item> findAllItemsWithName(@Param("searchPattern") String searchPattern);
 
 
-  // custom query example and return a stream
+
+    @Query("select i from Item i where i.sku like (:searchPattern)")
+    List<Item> findAllItemsWithSKU(@Param("searchPattern") String searchPattern);
+
+
+
+
+    // custom query example and return a stream
 //    @Query("select c from Customer c where c.email = :email")
 //    Stream<Customer> findByEmailReturnStream(@Param("email") String email);
 }

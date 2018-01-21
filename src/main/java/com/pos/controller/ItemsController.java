@@ -1,6 +1,7 @@
 package com.pos.controller;
 
 import com.pos.commons.Response;
+import com.pos.model.Item;
 import com.pos.pojos.XItem;
 import com.pos.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class ItemsController {
 
     @GetMapping(value="items/{itemId}")
     public @ResponseBody XItem fetchItem(@PathVariable(value="itemId") String itemId ){
-        XItem it =  itemsService.fetchItem(Long.valueOf(itemId));
+        XItem it =  itemsService.fetchItem(itemId);
         return it;
     }
 
@@ -49,8 +51,19 @@ public class ItemsController {
 
     @GetMapping(value="filteredItems")
     public @ResponseBody
-    Map<String, Long> getFilteredItems(@RequestParam(value="searchPattern") String searchPattern) {
-        return itemsService.getNameAndIdMapping(searchPattern);
+    List<XItem> getFilteredItems(@RequestParam(value="searchPattern") String searchPattern) {
+        List<XItem> filterdItems = new ArrayList<>();
+        if(searchPattern.matches("[0-9]+")) {
+            // exact search by barcode
+           XItem item = itemsService.fetchItem(searchPattern);
+           if(item !=null)
+               filterdItems.add(item);
+        }else{
+            //pattern search by name or SKU
+            filterdItems.addAll(itemsService.getItemNameAndIdMapping(searchPattern));
+        }
+        return filterdItems;
     }
 }
+
 //when to use response body

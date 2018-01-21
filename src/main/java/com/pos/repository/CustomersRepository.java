@@ -14,9 +14,9 @@ import org.springframework.data.repository.query.Param;
 /**
  * Created by rrampall on 21/01/18.
  */
-public interface CustomersRepository extends CrudRepository<Customer, Long> {
+public interface CustomersRepository extends CrudRepository<Customer, String> {
 
-  @Query("select mobileNumber from Customer c where c.mobileNumber like ':searchPattern'")
-  List<Long> findMobileNumberBySearchPattern(@Param("searchPattern") String searchPattern);
+  @Query("select mobileNumber from Customer c where c.mobileNumber like (:searchPattern)")
+  List<String> findMobileNumberBySearchPattern(@Param("searchPattern") String searchPattern);
 
 }

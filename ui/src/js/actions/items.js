@@ -22,3 +22,7 @@ export function getItem (id) {
 export function allItems() {
   return axios.get('http://localhost:8080/v1/items/');
 }
+
+export function getFilteredItems(searchPattern) {
+  return axios.get('http://localhost:8080/v1/filteredItems?searchPattern=' + searchPattern);
+}

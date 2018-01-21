@@ -9,6 +9,12 @@ import Value from 'grommet/components/Value';
 import Select from 'grommet/components/Select';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
+import {
+  getCustomersWithPattern , getCustomer
+} from '../../actions/customers';
+import {
+  getItem, getFilteredItems
+} from '../../actions/items'
 
 
 
@@ -33,7 +39,7 @@ class Billing extends React.Component {
       totalCost:0,
       paymentType: '',
       showNewBill:true,
-      mobileOptions : ['9901250919', '9901679120', '7981008285']
+      mobileOptions : ['9901250919']
     }
     this.valueEntered=this.valueEntered.bind(this);
     this.valueSelected=this.valueSelected.bind(this);
@@ -53,15 +59,36 @@ class Billing extends React.Component {
     if(field === 'customerMobileNumber') {
       let { mobileInput } = this.state;
       mobileInput=event.target.value;
+      getCustomersWithPattern(mobileInput).then((response) => {
+           this.setState({
+              mobileOptions : response.data
+           })
+      }).catch(()=>console.log('error occured'));
       this.setState({
         mobileInput
       })
     }else if(field === 'itemName') {
       let { itemNameInput } = this.state;
+
       itemNameInput=event.target.value;
+
       this.setState({
         itemNameInput
       })
+      getFilteredItems(itemNameInput).then((response) => {
+        let filteredItems = response.data;
+        let itemSuggestions = [];
+        for(let item of filteredItems) {
+          let suggestion = {
+            value : item.barcode,
+            label : item.name
+          }
+          itemSuggestions.push(suggestion);
+        }
+        this.setState({
+          itemSuggestions :  itemSuggestions
+         })
+      }).catch(() => console.log('error occured while fetching getItem'));
     }else if(field === 'paymentType') {
       this.setState({
         paymentType:event.option.value
@@ -69,6 +96,12 @@ class Billing extends React.Component {
     }
 
   }
+
+
+componentDidMount() {
+
+}
+
 
 
   valueSelected(field, target){
@@ -80,33 +113,42 @@ class Billing extends React.Component {
         mobileInput : '',
         showNewBill:false
       });
-      //query /v1/customers/customerMobileNumber and get the name
-      this.setState({
-        customerName : 'Rakesh Rampalli'
-      })
+      getCustomer(target.suggestion).then((response) => {
+        console.log(response);
+        this.setState({
+          customerName : response.data.name
+        })
+      }).catch(() => console.log('error occured while trying to get customer related info'));
     }else if(field === 'itemName') {
       this.setState({
         itemName:target.suggestion,
         itemNameInput : ''
       },() => console.log(this.state));
+
       //query /v1/items/barcode and get the item details barcode=target.suggestion.value
+      //we could have avoid this query by looking into filtereditems but still...live with it for now..
 
-      let { items , totalCost } = this.state;
-      let item = {
-         name : target.suggestion.label,
-         quantity : 1,
-         price : 120,
-         discount : 0,
-         totalPrice : 120
-      }
+      getItem(target.suggestion.value).then((response) => {
+        let result = response.data;
+        console.log(result);
+        let { items , totalCost } = this.state;
+        let item = {
+           name : target.suggestion.label,
+           quantity : 1,
+           price : result.price,
+           discount : 0,
+           totalPrice : result.price
+        }
+        totalCost+= Number(item.totalPrice);
+        this.setState({
+                items : items.concat(item),
+                totalCost
+              })
+      } ).catch(()=>console.log('could not get item details'))
 
-      totalCost+= Number(item.totalPrice);
 
 
-      this.setState({
-        items : items.concat(item),
-        totalCost
-      })
+
 
     }
   }
