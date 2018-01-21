@@ -32,14 +32,17 @@ public class ItemsService {
         return xItemList;
     }
 
-    public XItem fetchItem(Long id){
+    public XItem fetchItem(String id){
         Item itemFromRepo = itemsRepository.findOne(id);
-        return mapper.map(itemFromRepo, XItem.class);
+        if(itemFromRepo!=null)
+            return mapper.map(itemFromRepo, XItem.class);
+        else
+            return null;
     }
 
     public void editItem(XItem item){
         Item itemFromRequest = mapper.map(item, Item.class);
-        Item itemFromRepo = itemsRepository.findOne(item.getId());
+        Item itemFromRepo = itemsRepository.findOne(item.getBarcode());
         BeanUtils.copyProperties(itemFromRepo,itemFromRequest, ServiceUtils.getNullPropertyNames(itemFromRequest) );
         itemsRepository.save(itemFromRequest);
     }
@@ -55,7 +58,21 @@ public class ItemsService {
   * @param searchPattern : item name pattern
   * @return : Map of Item name to Item Id
   * */
-    public Map<String, Long> getSupplierNameAndIdMapping(String searchPattern) {
-        return itemsRepository.findNameIdBySearchPattern(searchPattern);
+    public List<XItem> getItemNameAndIdMapping(String searchPattern) {
+        List<Item> namesList = itemsRepository.findAllItemsWithName("%" + searchPattern + "%");
+        List<Item> skuList = itemsRepository.findAllItemsWithSKU("%" + searchPattern + "%");
+
+        List<Item> allItems  = new ArrayList<>();
+        allItems.addAll(namesList);
+        allItems.addAll(skuList);
+
+        List<XItem> xItemList = new ArrayList<>();
+        for(Item item : allItems) {
+            XItem xItem = mapper.map(item, XItem.class);
+            xItemList.add(xItem);
+        }
+        return xItemList;
     }
+
+
 }

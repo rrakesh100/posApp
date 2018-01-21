@@ -31,7 +31,7 @@ public class CustomersController {
     @GetMapping(value="customers/{mobileNumber}")
     public @ResponseBody
     XCustomer fetchItem(@PathVariable(value="mobileNumber") String mobileNumber ){
-        return customerService.fetchCustomer(Long.valueOf(mobileNumber));
+        return customerService.fetchCustomer(mobileNumber);
     }
 //
 //    @PutMapping(value="customers")
@@ -48,7 +48,7 @@ public class CustomersController {
 
     @GetMapping(value="filteredCustomers")
     public @ResponseBody
-    List<Long> getFilteredMobileNumbers(@RequestParam(value="searchPattern") String searchPattern) {
+    List<String> getFilteredMobileNumbers(@RequestParam(value="searchPattern") String searchPattern) {
         return customerService.getMobileNumberList(searchPattern);
     }
 }

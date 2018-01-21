@@ -15,20 +15,23 @@ import java.util.Date;
 @Table(name="items")
 public class Item {
 
-    @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Getter
     @Setter
     private Long id;
+    @Id
     @Getter
     @Setter
-    private Long uid;
+    private String uid;
     @Getter
     @Setter
     private String name;
     @Getter
     @Setter
     private String description;
+    @Getter
+    @Setter
+    private double price;
     @Getter
     @Setter
     private String  sku;

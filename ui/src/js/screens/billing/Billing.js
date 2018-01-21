@@ -12,6 +12,9 @@ import Button from 'grommet/components/Button';
 import {
   getCustomersWithPattern , getCustomer
 } from '../../actions/customers';
+import {
+  getItem, getFilteredItems
+} from '../../actions/items'
 
 
 
@@ -66,10 +69,26 @@ class Billing extends React.Component {
       })
     }else if(field === 'itemName') {
       let { itemNameInput } = this.state;
+
       itemNameInput=event.target.value;
+
       this.setState({
         itemNameInput
       })
+      getFilteredItems(itemNameInput).then((response) => {
+        let filteredItems = response.data;
+        let itemSuggestions = [];
+        for(let item of filteredItems) {
+          let suggestion = {
+            value : item.barcode,
+            label : item.name
+          }
+          itemSuggestions.push(suggestion);
+        }
+        this.setState({
+          itemSuggestions :  itemSuggestions
+         })
+      }).catch(() => console.log('error occured while fetching getItem'));
     }else if(field === 'paymentType') {
       this.setState({
         paymentType:event.option.value
@@ -105,24 +124,31 @@ componentDidMount() {
         itemName:target.suggestion,
         itemNameInput : ''
       },() => console.log(this.state));
+
       //query /v1/items/barcode and get the item details barcode=target.suggestion.value
+      //we could have avoid this query by looking into filtereditems but still...live with it for now..
 
-      let { items , totalCost } = this.state;
-      let item = {
-         name : target.suggestion.label,
-         quantity : 1,
-         price : 120,
-         discount : 0,
-         totalPrice : 120
-      }
+      getItem(target.suggestion.value).then((response) => {
+        let result = response.data;
+        console.log(result);
+        let { items , totalCost } = this.state;
+        let item = {
+           name : target.suggestion.label,
+           quantity : 1,
+           price : result.price,
+           discount : 0,
+           totalPrice : result.price
+        }
+        totalCost+= Number(item.totalPrice);
+        this.setState({
+                items : items.concat(item),
+                totalCost
+              })
+      } ).catch(()=>console.log('could not get item details'))
 
-      totalCost+= Number(item.totalPrice);
 
 
-      this.setState({
-        items : items.concat(item),
-        totalCost
-      })
+
 
     }
   }

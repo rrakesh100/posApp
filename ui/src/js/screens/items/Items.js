@@ -168,7 +168,7 @@ class Items extends React.Component {
                 <td>
                   <Button icon={<Edit />}
                     label='Edit'
-                    onClick={this.onEditClick.bind(this, item.id)}
+                    onClick={this.onEditClick.bind(this, item.barcode)}
                     plain={true} />
               </td>
                 </TableRow>

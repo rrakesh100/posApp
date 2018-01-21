@@ -24,5 +24,5 @@ export function allCustomers() {
 }
 
 export function getCustomersWithPattern(pattern) {
-  return axios.get('http://localhost:8080/v1/customers?searchPattern=' + pattern);
+  return axios.get('http://localhost:8080/v1/filteredCustomers?searchPattern=' + pattern);
 }
