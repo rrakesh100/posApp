@@ -22,6 +22,6 @@ public interface SuppliersRepository extends CrudRepository<Supplier,Long> {
   List<Supplier> findAllByOrderById();
 
   @Query("select agencyName, id from Supplier s where s.agencyName like ':searchPattern'")
-  Map<String, Long> findNameBySearchPattern(@Param("searchPattern") String searchPattern);
+  Map<String, Long> findNameIdBySearchPattern(@Param("searchPattern") String searchPattern);
 
 }

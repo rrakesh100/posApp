@@ -23,7 +23,7 @@ public interface ItemsRepository extends CrudRepository<Item,Long> {
     List<Item> findAllByOrderById();
 
   @Query("select name, id from Item i where i.name like ':searchPattern'")
-  Map<String, Long> findNameBySearchPattern(@Param("searchPattern") String searchPattern);
+  Map<String, Long> findNameIdBySearchPattern(@Param("searchPattern") String searchPattern);
 
 
   // custom query example and return a stream

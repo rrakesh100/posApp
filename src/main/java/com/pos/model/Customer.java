@@ -13,23 +13,17 @@ import java.util.Date;
 @Table(name="customers")
 public class Customer {
 
-
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(name="mobile_number")
     @Id
     private Long mobileNumber;
-    @Getter
-    @Setter
+    @Getter @Setter
     private String name;
-    @Getter
-    @Setter
+    @Getter @Setter
     private String email;
-    @Getter
-    @Setter
+    @Getter @Setter
     private String address;
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(name="company_name")
     private String  companyName;
 
@@ -40,14 +34,14 @@ public class Customer {
 //    private Date date;
 
     @Column(name="date_of_birth")
-    @Getter
-    @Setter
+    @Getter @Setter
     private Date dob;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private boolean deleted;
 
+    @Getter @Setter
+    private int points;
 
 
 

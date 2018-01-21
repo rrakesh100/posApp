@@ -1,7 +1,6 @@
 package com.pos.service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.dozer.Mapper;
@@ -52,6 +51,6 @@ public class ProcurementService {
 * @return : Map of date to Procurement Id
 * */
   public Map<Date, Long> getProcurementDateAndIdMapping(String date) {
-    return procurementsRepository.findNameBySearchPattern(date);
+    return procurementsRepository.findDateIdBySearchPattern(date);
   }
 }

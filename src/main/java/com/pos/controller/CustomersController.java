@@ -2,6 +2,7 @@ package com.pos.controller;
 
 import com.pos.commons.Response;
 import com.pos.model.Customer;
+import com.pos.pojos.XCustomer;
 import com.pos.pojos.XItem;
 import com.pos.service.CustomerService;
 import com.pos.service.ItemsService;
@@ -29,14 +30,14 @@ public class CustomersController {
 
     @GetMapping(value="customers/{mobileNumber}")
     public @ResponseBody
-    Customer fetchItem(@PathVariable(value="mobileNumber") String mobileNumber ){
+    XCustomer fetchItem(@PathVariable(value="mobileNumber") String mobileNumber ){
         return customerService.fetchCustomer(Long.valueOf(mobileNumber));
     }
-
-//    @PutMapping(value="items")
+//
+//    @PutMapping(value="customers")
 //    public @ResponseBody
-//    ResponseEntity<HttpStatus> editItem(@RequestBody XItem item){
-//        itemsService.editItem(item);
+//    ResponseEntity<HttpStatus> editCustomer(@RequestBody XCus item){
+//        customerService.editCustomer(item);
 //        return new Response<HttpStatus>().noContent().build();
 //    }
 //
@@ -44,10 +45,10 @@ public class CustomersController {
 //    public void addItem(@RequestBody XItem item){
 //        itemsService.addItem(item);
 //    }
-//
-//    @GetMapping(value="filteredItems")
-//    public @ResponseBody
-//    Map<String, Long> getFilteredItems(@RequestParam(value="searchPattern") String searchPattern) {
-//        return itemsService.getSupplierNameAndIdMapping(searchPattern);
-//    }
+
+    @GetMapping(value="filteredCustomers")
+    public @ResponseBody
+    List<Long> getFilteredMobileNumbers(@RequestParam(value="searchPattern") String searchPattern) {
+        return customerService.getMobileNumberList(searchPattern);
+    }
 }

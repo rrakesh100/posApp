@@ -20,6 +20,6 @@ public interface ProcurementsRepository extends CrudRepository<Procurement, Long
   Map<Date, Long> findAllProcurementIds();
 
   @Query("select time, id from Procurement p where p.time = ':date'")
-  Map<Date, Long> findNameBySearchPattern(@Param("date") String date);
+  Map<Date, Long> findDateIdBySearchPattern(@Param("date") String date);
 
 }
