@@ -9,6 +9,9 @@ import Value from 'grommet/components/Value';
 import Select from 'grommet/components/Select';
 import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
+import {
+  getCustomersWithPattern , getCustomer
+} from '../../actions/customers';
 
 
 
@@ -33,7 +36,7 @@ class Billing extends React.Component {
       totalCost:0,
       paymentType: '',
       showNewBill:true,
-      mobileOptions : ['9901250919', '9901679120', '7981008285']
+      mobileOptions : ['9901250919']
     }
     this.valueEntered=this.valueEntered.bind(this);
     this.valueSelected=this.valueSelected.bind(this);
@@ -53,6 +56,11 @@ class Billing extends React.Component {
     if(field === 'customerMobileNumber') {
       let { mobileInput } = this.state;
       mobileInput=event.target.value;
+      getCustomersWithPattern(mobileInput).then((response) => {
+           this.setState({
+              mobileOptions : response.data
+           })
+      }).catch(()=>console.log('error occured'));
       this.setState({
         mobileInput
       })
@@ -71,6 +79,12 @@ class Billing extends React.Component {
   }
 
 
+componentDidMount() {
+
+}
+
+
+
   valueSelected(field, target){
     console.log(field);
     console.log(target);
@@ -80,10 +94,12 @@ class Billing extends React.Component {
         mobileInput : '',
         showNewBill:false
       });
-      //query /v1/customers/customerMobileNumber and get the name
-      this.setState({
-        customerName : 'Rakesh Rampalli'
-      })
+      getCustomer(target.suggestion).then((response) => {
+        console.log(response);
+        this.setState({
+          customerName : response.data.name
+        })
+      }).catch(() => console.log('error occured while trying to get customer related info'));
     }else if(field === 'itemName') {
       this.setState({
         itemName:target.suggestion,
