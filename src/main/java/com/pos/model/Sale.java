@@ -56,7 +56,7 @@ public class Sale {
   private Double paymentAmount;
   @Getter
   @Setter
-  @Column(name = "tax_percent")
+  @Column(name = "payment_type")
   private Double paymentType;
   @Getter
   @Setter

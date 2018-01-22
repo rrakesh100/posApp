@@ -4,7 +4,6 @@ ALTER TABLE sales ALTER COLUMN customer_mobile_number TYPE text;
 ALTER TABLE sales add CONSTRAINT foreign_fk_2 FOREIGN key(customer_mobile_number) REFERENCES customers(mobile_number);
 ALTER TABLE suppliers ALTER COLUMN mobile_number TYPE text;
 ALTER TABLE EMPLOYEES ALTER COLUMN mobile_number TYPE text;
-ALTER TABLE CUSTOMERS ALTER COLUMN uid TYPE text;
 
 
 
