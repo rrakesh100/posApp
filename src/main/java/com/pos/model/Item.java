@@ -32,6 +32,7 @@ public class Item {
     @Getter
     @Setter
     private String  sku;
+
     @Column(name="created_date")
     @Getter
     @Setter
