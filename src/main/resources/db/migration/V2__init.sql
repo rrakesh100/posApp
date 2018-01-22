@@ -153,13 +153,6 @@ CREATE TABLE sales (
   constraint foreign_fk_2 foreign key(customer_mobile_number) references customers(mobile_number)
   );
 
-
-employee_id
-customer_mobile_number
-sale_time
-gross_amount (this will show as “SUB TOTAL” when bill is printed)
-add three more columns cgst, sgst, igst (tax columns)
-
 -- items contained in a sale
 DROP TABLE IF EXISTS sales_items;
 CREATE TABLE sales_items (
