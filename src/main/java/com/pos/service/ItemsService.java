@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by rrampall on 19/12/17.
@@ -62,10 +64,34 @@ public class ItemsService {
         List<Item> namesList = itemsRepository.findAllItemsWithName("%" + searchPattern + "%");
         List<Item> skuList = itemsRepository.findAllItemsWithSKU("%" + searchPattern + "%");
 
-        List<Item> allItems  = new ArrayList<>();
+
+        //Function.identity() will return the same item object
+//
+//        Map<String,Item> namesListMap = namesList.stream().collect(Collectors.toMap(Item::getUid, Function.identity()));
+//
+//        Map<String,Item> skuListMap = skuList.stream().collect(Collectors.toMap(Item::getUid, Function.identity()));
+//
+//        namesListMap.keySet().forEach(key -> {
+//            if( skuListMap.get(key) ==null)
+//                return;
+//            else
+//                skuListMap.remove(key);
+
+//            namesListMap.merge(key, skuListMap.get(key),(name,sku) -> {
+//                System.out.println("##############"  + name);
+//                System.out.println("$$$$$$$$$$$$$$" + sku);
+//                if(name.getId().equals(sku.getId()))
+//                    return name;
+//                else
+//                    return sku;
+//            } );
+//        } );
+
+        Set<Item> allItems  = new HashSet<>();
         allItems.addAll(namesList);
-        //TODO Important handle the scenario where an item could feature in both name search and SKU search
         allItems.addAll(skuList);
+
+
 
         List<XItem> xItemList = new ArrayList<>();
         for(Item item : allItems) {

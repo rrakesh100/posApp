@@ -40,5 +40,26 @@ public class Item {
     @Setter
     private Date date;
 
+    public boolean equals(Item i){
+        if(i == null)
+            return false;
+        else if(!(i instanceof Item)) {
+            return  false;
+        }else if( i == this){
+            return true;
+        }else {
+            return this.uid==i.uid;
+        }
+    }
+
+    public int hashCode(){
+        int result = 17;
+        result = uid.hashCode() + 31 * result;
+        result = (int) (price) + 31 * result;
+        result = name.hashCode() + 31 * result;
+        result = sku.hashCode() + 31 * result;
+        return  result;
+    }
+
 
 }
