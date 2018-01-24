@@ -84,19 +84,23 @@
 
     <xsd:complexType name="x_sale">
         <xsd:sequence>
-            <xsd:element name="sale_id" type="xsd:long"/>
-            <xsd:element name="invoice_number" type="xsd:long"/>
-            <xsd:element name="sale_number" type="xsd:string"/>
-            <xsd:element name="sale_time" type="xsd:date"/>
-            <xsd:element name="employee_id" type="xsd:int"/>
-            <xsd:element name="gross_amount" type="xsd:double"/>
-            <xsd:element name="tax_percent" type="xsd:double"/>
+            <xsd:element name="saleId" type="xsd:long"/>
+            <xsd:element name="invoiceNumber" type="xsd:long"/>
+            <xsd:element name="saleNumber" type="xsd:string"/>
+            <xsd:element name="saleTime" type="xsd:date"/>
+            <xsd:element name="employeeId" type="xsd:int"/>
+            <xsd:element name="subTotal" type="xsd:double"/>
+            <xsd:element name="taxPercent" type="xsd:double"/>
             <xsd:element name="discount" type="xsd:double"/>
-            <xsd:element name="payment_amount" type="xsd:double"/>
-            <xsd:element name="payment_type" type="xsd:string"/>
+            <xsd:element name="total" type="xsd:double"/>
+            <xsd:element name="paymentType" type="xsd:string"/>
             <xsd:element name="cgst" type="xsd:double"/>
             <xsd:element name="sgst" type="xsd:double"/>
             <xsd:element name="igst" type="xsd:double"/>
+            <xsd:element name="shopName" type="xsd:string"/>
+            <xsd:element name="customerMobileNumber" type="xsd:string"/>
+            <xsd:element name="customerName" type="xsd:string"/>
+            <xsd:element name="gstRegistrationNumber" type="xsd:string"/>
             <xsd:element name="sale_items" type="x_sale_items" maxOccurs="1" minOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -111,15 +115,14 @@
 
     <xsd:complexType name="x_sale_item">
         <xsd:sequence>
-            <xsd:element name="invoice_number" type="xsd:long"/>
-            <xsd:element name="item_id" type="xsd:int"/>
-            <xsd:element name="serial_number" type="xsd:int"/>
-            <xsd:element name="quantity_purchased" type="xsd:double"/>
-            <xsd:element name="item_cost_price" type="xsd:double"/>
-            <xsd:element name="item_unit_price" type="xsd:double"/>
-            <xsd:element name="discount_percent" type="xsd:double"/>
-            <xsd:element name="tax_percent" type="xsd:double"/>
-            <xsd:element name="total_price" type="xsd:double"/>
+            <xsd:element name="invoiceNumber" type="xsd:long"/>
+            <xsd:element name="itemId" type="xsd:int"/>
+            <xsd:element name="serialNumber" type="xsd:int"/>
+            <xsd:element name="quantity" type="xsd:double"/>
+            <xsd:element name="price" type="xsd:double"/>
+            <xsd:element name="discountPercent" type="xsd:double"/>
+            <xsd:element name="taxPercent" type="xsd:double"/>
+            <xsd:element name="totalPrice" type="xsd:double"/>
         </xsd:sequence>
     </xsd:complexType>
 

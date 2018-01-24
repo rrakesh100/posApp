@@ -42,7 +42,7 @@ public class Sale {
   @Getter
   @Setter
   @Column(name = "gross_amount")
-  private Double grossAmount;
+  private Double subTotal;
   @Getter
   @Setter
   @Column(name = "tax_percent")
@@ -53,11 +53,11 @@ public class Sale {
   @Getter
   @Setter
   @Column(name = "payment_amount")
-  private Double paymentAmount;
+  private Double total;
   @Getter
   @Setter
   @Column(name = "payment_type")
-  private Double paymentType;
+  private String paymentType;
   @Getter
   @Setter
   private Double cgst;
@@ -67,9 +67,9 @@ public class Sale {
   @Getter
   @Setter
   private Double igst;
-  @OneToMany
   @Getter
   @Setter
+  @OneToMany(fetch = FetchType.EAGER,mappedBy = "invoice_number")
   private List<SaleItem> saleItems;
 
 }

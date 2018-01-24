@@ -11,7 +11,7 @@ import lombok.ToString;
  */
 
 @ToString
-@Entity
+@Embeddable
 @Table(name="sales_items")
 public class SaleItem {
   @Getter
@@ -25,21 +25,15 @@ public class SaleItem {
   @Getter
   @Setter
   @Column(name="serial_number")
-  @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Long serialNumber;
   @Getter
   @Setter
   @Column(name="quantity_purchased")
-  private Double quantityPurchased;
-  @Getter
-  @Setter
-  @Column(name="item_cost_price")
-  private Double itemCostPrice;
+  private Double quantity;
   @Getter
   @Setter
   @Column(name="item_unit_price")
-  private Double itemUnitPrice;
+  private Double price;
   @Getter
   @Setter
   @Column(name="discount_percent")
@@ -52,5 +46,11 @@ public class SaleItem {
   @Setter
   @Column(name="total_price")
   private Double totalPrice;
+
+  @Getter
+  @Setter
+  @ManyToOne(fetch = FetchType.EAGER, targetEntity = SaleItem.class)
+  @JoinColumn(name="invoice_number" , nullable = false)
+  private Sale sale;
 
 }

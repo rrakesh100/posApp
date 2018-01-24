@@ -48,6 +48,39 @@ class Billing extends React.Component {
 
   printBill(){
     //clear items, make server request with bill info
+    const  {
+      customerMobileNumber,
+      customerName,
+      paymentType,
+      items,
+      subTotal,
+      sgst,
+      cgst,
+      igst=0,
+      discount,
+      total
+    } = this.state;
+
+
+    const payload = {
+      gstRegistrationNumber : "GST123",
+      customerMobileNumber,
+      customerName,
+      paymentType,
+      employeeId : "1",
+      shopName : "More Super Market",
+      items,
+      subTotal,
+      sgst,
+      cgst,
+      igst,
+      discount,
+      total
+    }
+
+    console.log(this.state);
+    console.log(payload);
+    this.setState({})
     this.setState({
       showNewBill : true
     })
@@ -131,30 +164,40 @@ componentDidMount() {
       getItem(target.suggestion.value).then((response) => {
         let result = response.data;
         console.log(result);
-        let { items , totalCost } = this.state;
+        let { items } = this.state;
+        let quantity = 1;        let itemdiscount = 0;
+        let  totalItemCost= Number(result.price) * quantity;
         let item = {
            name : target.suggestion.label,
-           quantity : 1,
+           quantity,
            price : result.price,
-           discount : 0,
-           totalPrice : result.price
+           discount :itemdiscount,
+           totalPrice :totalItemCost
         }
-        totalCost+= Number(item.totalPrice);
+
+        let { subTotal=0 ,totalCost=0, discount=0, netAmount=0 } = this.state;
+
+        subTotal = subTotal + totalItemCost;
+        netAmount = subTotal - discount;
+        let cgst = (0.025*netAmount).toFixed(2);
+        let sgst = (0.025*netAmount).toFixed(2);
         this.setState({
                 items : items.concat(item),
-                totalCost
+                subTotal,
+                discount,
+                netAmount ,
+                cgst ,
+                sgst,
+                total : (Number(netAmount) + Number(cgst) + Number(sgst)).toFixed(2),
               })
       } ).catch(()=>console.log('could not get item details'))
-
-
-
-
 
     }
   }
 
   render(){
-    const { mobileOptions, customerName ,itemSuggestions, items, totalCost, showNewBill } = this.state;
+    const { mobileOptions, customerName ,itemSuggestions, items, subTotal=0,discount=0,sgst=0,cgst=0,total=0,
+       showNewBill } = this.state;
     return (
       <div>
         <Headline align="center" margin="large">
@@ -185,19 +228,30 @@ componentDidMount() {
             responsive={false}
             reverse={false}
             align='end' />
-            <Value value={totalCost}
+          <Value value={subTotal}
+              label='Sub Total'
+              units='$'
+              responsive={false}
+              reverse={false}
+              align='end' />
+          <Value value={discount}
+                label='Discount'
+                units='$'
+                responsive={false}
+                reverse={false}
+                align='end' />
+              <Value value={Number(sgst) + Number(cgst)}
+                label='GST'
+                units='$'
+                responsive={false}
+                reverse={false}
+                align='end' />
+              <Value value={total}
               label='Total Cost'
               units='$'
               responsive={false}
               reverse={false}
               align='end' />
-            <Value value={totalCost}
-              label='Bill Amount (Incl Tax)'
-              units='$'
-              responsive={false}
-              reverse={false}
-              align='end' />
-
 
           </div>
           <Table  className="tableContent" scrollable={true}>
