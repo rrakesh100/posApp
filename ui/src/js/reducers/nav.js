@@ -11,13 +11,13 @@ const initialState = {
   enabled: true, // start with nav disabled
   responsive: 'multiple',
   items: [
-    { path: '/billing', label: 'BILLING' },
-    { path: '/items', label: 'ITEMS' },
-    { path: '/procurements', label: 'PROCUREMENTS' },
-    { path: '/Dashboard', label: 'SALES' },
-    { path: '/employees', label: 'EMPLOYEES' },
-    { path: '/customers', label: 'CUSTOMERS' },
-    { path: '/dashboard', label: 'REPORTS' }
+    { path: '/billing', label: 'H' },
+    { path: '/items', label: 'E' },
+    { path: '/procurements', label: 'L' },
+    { path: '/Dashboard', label: 'L' },
+    { path: '/employees', label: 'L' },
+    { path: '/dashboard', label: 'L' },
+    { path: '/customers', label: 'O' }
   ]
 };
 

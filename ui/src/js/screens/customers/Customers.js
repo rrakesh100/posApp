@@ -30,7 +30,7 @@ class Customer extends React.Component {
     setInterval( _ =>{
          connection.send(JSON.stringify( { name : 'name - ' + Math.random() ,
                        value :  Math.random()}));
-     }, 10000 )
+     }, 5000 )
 
   }
 
