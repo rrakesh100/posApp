@@ -1,5 +1,6 @@
 package com.pos.controller;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,30 @@ public class HomeController {
 //        flyway.migrate();
 //
 //        return flyway;
+//    }
+
+
+//    public static void main(String[] args) {
+//        String s = "  rokefsh/";
+//        for(Character c : s.toCharArray()){
+//            System.out.printf("\\u%04x \n", (int) c);
+//        }
+//
+//
+//        String p1= s.replaceAll("\\s","\\\\u0020").replaceAll("/","\\\\u002f");
+//
+//        System.out.println(p1);
+//
+//        String q= StringEscapeUtils.unescapeJava(p1);
+//        String q2= StringEscapeUtils.unescapeJava(q);
+//
+//
+//        System.out.println(q);
+//        System.out.println(q2);
+//
+//
+//
+//
 //    }
 
 }
