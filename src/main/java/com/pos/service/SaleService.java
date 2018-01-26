@@ -1,5 +1,6 @@
 package com.pos.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,16 +57,23 @@ public class SaleService {
     Sale sale = mapper.map(xSale, Sale.class);
     sale.setInvoiceNumber(invoiceNumber);
     sale.setSaleTime(new Date());
-    for(SaleItem saleItem : sale.getSaleItems()) {
+    for(int i=0;i<sale.getSaleItems().size();i++) {
+      SaleItem saleItem = sale.getSaleItems().get(i);
+      saleItem.setSerialNumber(i+1);
       saleItem.setSale(sale);
     }
-    System.out.println(sale);
     salesRepository.save(sale);
   }
 
   private String generateInvoiceNumber(XSale xSale) {
+    LocalDateTime localDateTime = LocalDateTime.now();
+     String invoiceNNumber = localDateTime.getDayOfMonth() + localDateTime.getMonth().toString().substring(0,3).toUpperCase() +
+            localDateTime.getYear() % 2000 + "-" +
+            xSale.getCustomerName().substring(0,3).toUpperCase() +
+            xSale.getCustomerMobileNumber().substring(xSale.getCustomerMobileNumber().length()-3,xSale.getCustomerMobileNumber().length()) +
+            "-" + localDateTime.getHour() + localDateTime.getMinute()+ localDateTime.getSecond();
 
-    return "26JAN18-RAK919-1526";
+    return invoiceNNumber;
   }
 
   /*

@@ -245,27 +245,27 @@ componentDidMount() {
             align='end' />
           <Value value={subTotal}
               label='Sub Total'
-              units='$'
+              units='&#8377;'
               responsive={false}
               reverse={false}
               align='end' />
           <Value value={discount}
                 label='Discount'
-                units='$'
+                units='&#8377;'
                 responsive={false}
                 reverse={false}
                 align='end' />
               <Value value={Number(sgst) + Number(cgst)}
                 label='GST'
-                units='$'
+                units='&#8377;'
                 responsive={false}
-                reverse={false}
+                reverse={true}
                 align='end' />
               <Value value={total}
               label='Total Cost'
-              units='$'
+              units='&#8377;'
               responsive={false}
-              reverse={false}
+              reverse={true}
               align='end' />
 
           </div>

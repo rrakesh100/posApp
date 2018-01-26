@@ -33,7 +33,7 @@ public class SaleItem {
   @Getter
   @Setter
   @Column(name="serial_number")
-  private Long serialNumber;
+  private int serialNumber;
 
 
   @Getter

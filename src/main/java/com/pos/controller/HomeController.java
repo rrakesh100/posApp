@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +33,7 @@ public class HomeController {
         Item i = new Item();
         i.setUid("100200300407");
         s1.setItem(i);
-        s1.setSerialNumber(1L);
+        s1.setSerialNumber(1);
         s1.setQuantity((double) 20);
         s1.setSale(sale);
 //
@@ -71,8 +73,17 @@ public class HomeController {
         return "Hello world !!! @@@@";
     }
 
-//    public static void main(String[] args) {
-//
-//    }
+    public static void main(String[] args) {
+
+        LocalDate localDate = LocalDate.now();
+
+        System.out.println(localDate);
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        System.out.println(localDateTime.getMonth());
+
+
+    }
 
 }
