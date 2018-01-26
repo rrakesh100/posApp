@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by rrampall on 21/01/18.
@@ -42,6 +43,11 @@ public class Customer {
 
     @Getter @Setter
     private int points;
+
+
+    @Getter @Setter
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    private Set<Sale> sale;
 
 
 

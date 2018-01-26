@@ -26,14 +26,14 @@ public class SalesController {
   private SaleService saleService;
 
   @GetMapping(value="sales")
-  public Map<Date, Long> getAllSales(){
+  public Map<Date, String> getAllSales(){
     return saleService.getAllSaleIds();
   }
 
   @GetMapping(value="sales/{saleId}")
   public @ResponseBody
   XSale fetchSale(@PathVariable(value="saleId") String saleId ){
-    return saleService.fetchSale(Long.valueOf(saleId));
+    return saleService.fetchSale(saleId);
   }
 
   @PutMapping(value="sales")
@@ -49,7 +49,7 @@ public class SalesController {
   }
 
   @GetMapping(value="filteredSales")
-  public @ResponseBody Map<Date, Long> getFilteredSales(@RequestParam(value="searchPattern")
+  public @ResponseBody Map<Date, String> getFilteredSales(@RequestParam(value="searchPattern")
     String date) {
     return saleService.getSaleDateAndIdMapping(date);
   }

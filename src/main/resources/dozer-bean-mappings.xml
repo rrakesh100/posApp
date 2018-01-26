@@ -20,4 +20,44 @@
     <class-a>com.pos.model.Supplier</class-a>
     <class-b>com.pos.pojos.XSupplier</class-b>
   </mapping>
+
+
+  <mapping>
+    <class-a>com.pos.model.Sale</class-a>
+    <class-b>com.pos.pojos.XSale</class-b>
+    <field>
+      <a>customer.mobileNumber</a>
+      <b>customerMobileNumber</b>
+    </field>
+    <field>
+      <a>customer.name</a>
+      <b>customerName</b>
+    </field>
+    <field>
+      <a>employee.name</a>
+      <b>employeeName</b>
+    </field>
+    <field>
+      <a>employee.id</a>
+      <b>employeeId</b>
+    </field>
+
+  </mapping>
+  <mapping>
+    <class-a>com.pos.model.SaleItem</class-a>
+    <class-b>com.pos.pojos.XSaleItem</class-b>
+    <field>
+      <a>sale.invoiceNumber</a>
+      <b>invoiceNumber</b>
+    </field>
+    <field>
+      <a>item.name</a>
+      <b>itemName</b>
+    </field>
+    <field>
+      <a>item.uid</a>
+      <b>itemId</b>
+    </field>
+
+  </mapping>
 </mappings>

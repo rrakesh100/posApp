@@ -15,7 +15,9 @@ import {
 import {
   getItem, getFilteredItems
 } from '../../actions/items'
-
+import {
+  createBill
+} from '../../actions/sales'
 
 
 class Billing extends React.Component {
@@ -54,10 +56,13 @@ class Billing extends React.Component {
       paymentType,
       items,
       subTotal,
+      discount,
+      netAmount=0,
+      taxAmount,
+      taxPercent,
       sgst,
       cgst,
       igst=0,
-      discount,
       total
     } = this.state;
 
@@ -67,19 +72,28 @@ class Billing extends React.Component {
       customerMobileNumber,
       customerName,
       paymentType,
-      employeeId : "1",
+      employeeId : 1,
       shopName : "More Super Market",
-      items,
+      saleItems:items,
       subTotal,
-      sgst,
-      cgst,
-      igst,
       discount,
+      netAmount,
+      taxAmount,
+      taxPercent,
+      cgst,
+      sgst,
+      igst,
       total
     }
 
     console.log(this.state);
     console.log(payload);
+
+    createBill(payload).then(()=>{
+      console.log("successfully created");
+    }).catch(console.log("error occured while creating bill"))
+
+
     this.setState({})
     this.setState({
       showNewBill : true
@@ -168,7 +182,8 @@ componentDidMount() {
         let quantity = 1;        let itemdiscount = 0;
         let  totalItemCost= Number(result.price) * quantity;
         let item = {
-           name : target.suggestion.label,
+          itemId : target.suggestion.value,
+          itemName : target.suggestion.label,
            quantity,
            price : result.price,
            discount :itemdiscount,

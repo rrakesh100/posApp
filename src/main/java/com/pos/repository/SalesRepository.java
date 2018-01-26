@@ -12,13 +12,13 @@ import com.pos.model.Sale;
 /**
  * Created by rajithar on 21/1/18.
  */
-public interface SalesRepository extends CrudRepository<Sale, Long> {
+public interface SalesRepository extends CrudRepository<Sale, String> {
 
 
-  @Query("select time, invoiceNumber from Sale s")
-  Map<Date, Long> findAllSaleIds();
+  @Query("select saleTime, invoiceNumber from Sale s")
+  Map<Date, String> findAllSaleIds();
 
-  @Query("select time, invoiceNumber from Sale s where s.time = ':date'")
-  Map<Date, Long> findDateIdBySearchPattern(@Param("date") String date);
+  @Query("select saleTime, invoiceNumber from Sale s where s.saleTime = ':date'")
+  Map<Date, String> findDateIdBySearchPattern(@Param("date") String date);
 
 }

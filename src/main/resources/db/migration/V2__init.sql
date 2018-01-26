@@ -138,7 +138,6 @@ create table inventory (
 -- sales information.
 DROP TABLE IF EXISTS sales cascade;
 CREATE TABLE sales (
-  sale_id serial,
   invoice_number bigint primary key,
   sale_number text default null, -- extra place holder for any other info
   sale_time  timestamp NOT NULL default current_timestamp,
