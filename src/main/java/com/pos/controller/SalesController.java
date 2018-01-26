@@ -1,6 +1,7 @@
 package com.pos.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class SalesController {
   private SaleService saleService;
 
   @GetMapping(value="sales")
-  public Map<Date, String> getAllSales(){
+  public List<XSale> getAllSales(){
     return saleService.getAllSaleIds();
   }
 

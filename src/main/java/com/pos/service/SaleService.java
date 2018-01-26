@@ -17,6 +17,8 @@ import com.pos.model.Sale;
 import com.pos.pojos.XSale;
 import com.pos.repository.SalesRepository;
 
+import static com.pos.commons.EntityType.Sales;
+
 /**
  * Created by rajithar on 21/1/18.
  */
@@ -29,8 +31,13 @@ public class SaleService {
   @Autowired
   private Mapper mapper;
 
-  public Map<Date, String> getAllSaleIds() {
-    return salesRepository.findAllSaleIds();
+  public List<XSale>  getAllSaleIds() {
+    List<Sale>  allSales = salesRepository.findAll();
+    List<XSale> returnList = new ArrayList<>();
+    for(Sale s : allSales) {
+      returnList.add(mapper.map(s, XSale.class));
+    }
+    return returnList;
   }
 
   public XSale fetchSale(String saleId) {

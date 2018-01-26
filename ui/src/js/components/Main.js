@@ -21,6 +21,7 @@ import Customer from '../screens/customers/Customer';
 import Employees from '../screens/employees/Employees';
 import Employee from '../screens/employees/Employee';
 import Procurement from '../screens/procurements/Procurements';
+import Sales from '../screens/sales/sales';
 
 class Main extends Component {
   constructor() {
@@ -63,6 +64,7 @@ class Main extends Component {
               <Route path='/tasks/:id' component={Task} />
               <Route path='/tasks' component={Tasks} />
               <Route path='/items' component={Items} />
+              <Route path='/sales' component={Sales} />
               <Route path='/item/:id' component={Item} />
               <Route path='/customers' component={Customers} />
               <Route path='/customer/:id' component={Customer} />
