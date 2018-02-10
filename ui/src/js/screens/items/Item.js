@@ -42,6 +42,21 @@ class Item extends React.Component {
       itemId = match.params.id
     else
       itemId=this.props.itemId;
+
+      if(itemId != 0){
+        this.setState({
+          editFlow: true,
+          id:itemId
+        })
+        getItem(itemId).then((response) => {
+        this.setState({...response.data});
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }else{
+        this.setState({...this.defaultState});
+      }
   }
 
   componentWillUnmount(){

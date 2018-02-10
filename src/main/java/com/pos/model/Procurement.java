@@ -40,9 +40,11 @@ public class Procurement {
   @Getter
   @Setter
   private Double paymentAmount;
-  @OneToMany
+
   @Getter
   @Setter
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "procurement",  targetEntity = ProcurementItem.class,
+          cascade = CascadeType.ALL)
   private List<ProcurementItem> procurementItems;
 
 }

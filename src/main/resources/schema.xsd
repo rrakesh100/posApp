@@ -14,6 +14,8 @@
             <xsd:element name="price" type="xsd:double"/>
             <xsd:element name="sku" type="xsd:string"/>
             <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="quantity" type="xsd:string"/>
+            <xsd:element name="units" type="xsd:string"/>
             <xsd:element name="description" type="xsd:string"/>
             <xsd:element name="createdDate" type="xsd:dateTime"/>
         </xsd:sequence>

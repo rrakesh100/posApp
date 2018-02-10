@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { pageLoaded } from '../utils';
 import {
-  allItems
+  allItems, deleteItem
 } from '../../actions/items';
 
 import Table from 'grommet/components/Table';
@@ -18,6 +18,9 @@ import Anchor from 'grommet/components/Anchor';
 import TextInput from 'grommet/components/TextInput';
 import Layer from 'grommet/components/Layer';
 import Edit from 'grommet/components/icons/base/Edit';
+import CloseIcon from 'grommet/components/icons/base/Close';
+
+import Heading from 'grommet/components/Heading';
 
 import Item from './Item';
 
@@ -54,6 +57,17 @@ class Items extends React.Component {
     );
   }
 
+
+  deleteItem(itemId){
+    deleteItem(itemId).then((response) => {
+      console.log(response)
+    }).catch(e => (console.log(e)));
+    this.setState({
+      showDeleteModal: false,
+      itemIdForModal: null
+    })
+  }
+
   componentWillUnmount() {
     //should we clear the state everytime component is unmounted ?
   }
@@ -70,6 +84,17 @@ class Items extends React.Component {
   }
 
 
+  onDeleteClick(id, event) {
+     event.preventDefault();
+    // this.props.dispatch(push(this.props.path));
+    this.setState({
+      showDeleteModal: true,
+      itemIdForModal: id
+    })
+
+  }
+
+
   onAdditems() {
     this.setState({
       showItemModal: true,
@@ -80,6 +105,7 @@ class Items extends React.Component {
   onCloseModal() {
     this.setState({
       showItemModal: false,
+      showDeleteModal:false,
       itemIdForModal: ''
     });
   }
@@ -100,8 +126,11 @@ class Items extends React.Component {
   }
 
 
-  renderItemModal() {
+  renderViewItemModal() {
     const { showItemModal, itemIdForModal } = this.state;
+
+    if(!showItemModal)
+      return ;
 
     return (
       <Layer
@@ -117,6 +146,35 @@ class Items extends React.Component {
     )
   }
 
+  renderDeleteItemModal() {
+    const { showDeleteModal, itemIdForModal } = this.state;
+
+    return (
+      <Layer
+        onClose={this.onCloseModal.bind(this)}
+        className='itemModal'
+        closer={true}
+        overlayClose={true}
+        hidden={!showDeleteModal}
+        >
+            <Heading tag='h3'
+            uppercase={true}
+            align='center'
+            margin='small'>
+              Are you sure you want to delete the item ?
+            </Heading>
+            <Button label='YES'
+            onClick={this.deleteItem.bind(this,itemIdForModal)}
+            primary={true} />
+          <Button label='NO'
+            onClick={this.onCloseModal.bind(this)}
+            />
+      </Layer>
+
+    )
+  }
+
+
 
   render() {
     const { items, add } = this.state;
@@ -125,7 +183,9 @@ class Items extends React.Component {
 
       <div className="items">
       { this.renderToastIfAny() }
-      { this.renderItemModal() }
+      { this.renderViewItemModal() }
+      { this.renderDeleteItemModal() }
+
       <div className="addEntity">
         <Button
           label='Add Item'
@@ -149,6 +209,9 @@ class Items extends React.Component {
           SKU
           </th>
           <th>
+            Quantity
+          </th>
+          <th>
           Description
           </th>
           <th>
@@ -164,12 +227,17 @@ class Items extends React.Component {
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>{item.sku}</td>
+                <td>{item.quantity}</td>
                 <td>{item.description}</td>
                 <td>
                   <Button icon={<Edit />}
                     label='Edit'
                     onClick={this.onEditClick.bind(this, item.barcode)}
                     plain={true} />
+                  <Button icon={<CloseIcon />}
+                      label='Delete'
+                      onClick={this.onDeleteClick.bind(this, item.barcode)}
+                      plain={true} />
               </td>
                 </TableRow>
               })

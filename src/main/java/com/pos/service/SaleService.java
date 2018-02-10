@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.pos.model.DailySale;
 import com.pos.model.SaleItem;
 import com.pos.pojos.XSaleItem;
+import com.pos.repository.DailySaleHistoryRepository;
 import org.dozer.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class SaleService {
 
   @Autowired
   private SalesRepository salesRepository;
+
+  @Autowired
+  private DailySaleHistoryRepository dailySaleHistoryRepository;
 
   @Autowired
   private Mapper mapper;
@@ -69,7 +74,24 @@ public class SaleService {
       saleItem.setSerialNumber(i+1);
       saleItem.setSale(sale);
     }
+    updateDailySaleHistory(sale.getSaleItems());
     salesRepository.save(sale);
+  }
+
+  private void updateDailySaleHistory(List<SaleItem> saleItems) {
+
+    Date now = new Date(); List<DailySale> sales = new ArrayList<>();
+    for(SaleItem saleItem : saleItems) {
+      DailySale dailySale = new DailySale();
+      dailySale.setItemId(saleItem.getItem().getUid());
+      dailySale.setDate(now);
+      dailySale.setPrice(saleItem.getTotalPrice()/saleItem.getQuantity());
+      dailySale.setQuantity(saleItem.getQuantity());
+      dailySale.setUnits(saleItem.getItem().getUnits());
+      sales.add(dailySale);
+    }
+    dailySaleHistoryRepository.save(sales);
+
   }
 
   private String generateInvoiceNumber(XSale xSale) {

@@ -40,6 +40,19 @@ public class Item {
     @Setter
     private Date date;
 
+    @Getter
+    @Setter
+    private boolean deleted;
+
+    @Getter
+    @Setter
+    private double quantity;
+
+    @Getter
+    @Setter
+    private String units;
+
+
     public boolean equals(Item i){
         if(i == null)
             return false;

@@ -9,8 +9,8 @@ export function editItem (item) {
   return axios.put('http://localhost:8080/v1/items',  {...item});
 }
 
-export function deleteItem (item) {
-  return axios.delete('http://localhost:8080/v1/items'+ id);
+export function deleteItem (itemId) {
+  return axios.delete('http://localhost:8080/v1/items/'+ itemId);
 }
 
 

@@ -294,7 +294,7 @@ componentDidMount() {
                   items.map((item, index) => {
                     return <TableRow>
                     <td>{index+1}</td>
-                    <td>{item['name']}</td>
+                    <td>{item['itemName']}</td>
                     <td>{item['quantity']}</td>
                     <td>{item['price']}</td>
                     <td>{item['totalPrice']}</td>

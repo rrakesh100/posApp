@@ -20,9 +20,14 @@ public class ProcurementItem {
   @Getter
   @Setter
   private Long procurementId;
+
   @Getter
   @Setter
-  private Long itemId;
+  @OneToOne
+  @JoinColumn(name = "item_id")
+  private Item item;
+
+
   @Getter
   @Setter
   private String description;
@@ -44,8 +49,19 @@ public class ProcurementItem {
   @Setter
   @Column(name="item_cost_price")
   private Double itemCostPrice;
+
   @Getter
   @Setter
   @Column(name="item_unit_price")
   private Double itemUnitPrice;
+
+  @Getter
+  @Setter
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name="procurementId" , nullable = false)
+  private Procurement procurement;
+
+
+
+
 }

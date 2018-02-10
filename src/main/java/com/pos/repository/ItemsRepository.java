@@ -16,11 +16,11 @@ import java.util.Map;
  */
 public interface ItemsRepository extends CrudRepository<Item,String> {
 
-    List<Item> findByName(String name);
+    List<Item> findByNameAndDeletedFalse(String name);
 
     //https://stackoverflow.com/questions/20374437/jpa-query-creation-order-by
     @Transactional(readOnly=true)
-    List<Item> findAllByOrderById();
+    List<Item> findByDeletedFalseOrderByName();
 
 
     /*
@@ -37,12 +37,12 @@ public interface ItemsRepository extends CrudRepository<Item,String> {
 
       */
 
-    @Query("select i from Item i where i.name like (:searchPattern)")
+    @Query("select i from Item i where i.name like (:searchPattern) and i.deleted=false")
     List<Item> findAllItemsWithName(@Param("searchPattern") String searchPattern);
 
 
 
-    @Query("select i from Item i where i.sku like (:searchPattern)")
+    @Query("select i from Item i where i.sku like (:searchPattern) and i.deleted=false")
     List<Item> findAllItemsWithSKU(@Param("searchPattern") String searchPattern);
 
 

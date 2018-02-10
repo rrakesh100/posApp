@@ -88,7 +88,6 @@ class Procurements extends React.Component {
 
 
    valueEntered(fieldName,e) {
-     console.log('---------');
      console.log(this.state);
       console.log(fieldName);
       console.log(e);

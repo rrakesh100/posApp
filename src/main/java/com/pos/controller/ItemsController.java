@@ -4,6 +4,7 @@ import com.pos.commons.Response;
 import com.pos.model.Item;
 import com.pos.pojos.XItem;
 import com.pos.service.ItemsService;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.Map;
 //Allowing from all for now
 @CrossOrigin(origins = "*")
 //@CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/v1")
+@RequestMapping("/v1/")
 public class ItemsController {
 
     @Autowired
@@ -63,6 +64,13 @@ public class ItemsController {
             filterdItems.addAll(itemsService.getItemNameAndIdMapping(searchPattern));
         }
         return filterdItems;
+    }
+
+    @DeleteMapping(value="items/{itemId}")
+    public @ResponseBody
+    ResponseEntity<HttpStatus> deleteItem(@PathVariable(value="itemId") String itemId){
+        itemsService.deleteItem(itemId);
+        return new Response<HttpStatus>().noContent().build();
     }
 }
 

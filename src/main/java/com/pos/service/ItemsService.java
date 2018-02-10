@@ -1,7 +1,9 @@
 package com.pos.service;
 
 import com.pos.model.Item;
+import com.pos.model.ItemUpdate;
 import com.pos.pojos.XItem;
+import com.pos.repository.ItemUpdatesRepository;
 import com.pos.repository.ItemsRepository;
 import org.dozer.Mapper;
 import org.springframework.beans.BeanUtils;
@@ -21,11 +23,15 @@ public class ItemsService {
     @Autowired
     private ItemsRepository itemsRepository;
 
+
+    @Autowired
+    private ItemUpdatesRepository itemUpdatesRepository;
+
     @Autowired
     private Mapper mapper;
 
     public List<XItem> getAllItems(){
-        List<Item> itemList = itemsRepository.findAllByOrderById();
+        List<Item> itemList = itemsRepository.findByDeletedFalseOrderByName();
         List<XItem> xItemList = new ArrayList<>();
         for(Item item : itemList) {
             XItem xItem = mapper.map(item, XItem.class);
@@ -45,9 +51,26 @@ public class ItemsService {
     public void editItem(XItem item){
         Item itemFromRequest = mapper.map(item, Item.class);
         Item itemFromRepo = itemsRepository.findOne(item.getBarcode());
+        Map<String,String> diff = ServiceUtils.getDiff(itemFromRequest, itemFromRepo);
+        storeUpdates(itemFromRequest.getUid(), diff);
         BeanUtils.copyProperties(itemFromRepo,itemFromRequest, ServiceUtils.getNullPropertyNames(itemFromRequest) );
         itemsRepository.save(itemFromRequest);
+
     }
+
+    private void storeUpdates(String itemId, Map<String, String> diff) {
+        Date now = new Date(); List updates = new ArrayList();
+        for(Map.Entry<String,String> entry : diff.entrySet()) {
+            ItemUpdate update = new ItemUpdate();
+            update.setItemId(itemId);
+            update.setField(entry.getKey());
+            update.setValue(entry.getValue());
+            update.setDate(now);
+            updates.add(update);
+        }
+        itemUpdatesRepository.save(updates);
+    }
+
 
     public void addItem(XItem xItem){
         Item item = mapper.map(xItem, Item.class);
@@ -99,6 +122,14 @@ public class ItemsService {
             xItemList.add(xItem);
         }
         return xItemList;
+    }
+
+
+    public void deleteItem(String itemId) {
+        //we only do a soft delete of the item. so just mark the deleted flag = true
+        Item itemFromRepo = itemsRepository.findOne(itemId);
+        itemFromRepo.setDeleted(true);
+        itemsRepository.save(itemFromRepo);
     }
 
 
