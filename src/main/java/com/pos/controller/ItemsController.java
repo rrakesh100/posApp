@@ -6,6 +6,7 @@ import com.pos.pojos.XItem;
 import com.pos.service.ItemsService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,9 @@ public class ItemsController {
 
     @Autowired
     private ItemsService itemsService;
+
+    @Value("${rakesh}")
+    private String name;
 
     @GetMapping(value="items")
     public List<XItem> listAll(){

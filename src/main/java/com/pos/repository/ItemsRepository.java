@@ -37,12 +37,12 @@ public interface ItemsRepository extends CrudRepository<Item,String> {
 
       */
 
-    @Query("select i from Item i where i.name like (:searchPattern) and i.deleted=false")
+    @Query("select i from Item i where lower(i.name) like lower(:searchPattern) and i.deleted=false")
     List<Item> findAllItemsWithName(@Param("searchPattern") String searchPattern);
 
 
 
-    @Query("select i from Item i where i.sku like (:searchPattern) and i.deleted=false")
+    @Query("select i from Item i where lower(i.sku) like lower(:searchPattern) and i.deleted=false")
     List<Item> findAllItemsWithSKU(@Param("searchPattern") String searchPattern);
 
 

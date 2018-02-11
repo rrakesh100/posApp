@@ -19,10 +19,6 @@ public class ProcurementItem {
 
   @Getter
   @Setter
-  private Long procurementId;
-
-  @Getter
-  @Setter
   @OneToOne
   @JoinColumn(name = "item_id")
   private Item item;
