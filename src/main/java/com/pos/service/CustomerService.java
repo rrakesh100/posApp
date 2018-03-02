@@ -1,9 +1,12 @@
 package com.pos.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.pos.model.Customer;
+import com.pos.model.Item;
 import com.pos.pojos.XCustomer;
+import com.pos.pojos.XItem;
 import com.pos.repository.CustomersRepository;
 
 import org.dozer.Mapper;
@@ -26,6 +29,17 @@ public class CustomerService {
     public XCustomer fetchCustomer(String mobileNumber) {
       Customer customerFromRepo = customersRepository.findOne(mobileNumber);
       return mapper.map(customerFromRepo, XCustomer.class);
+    }
+
+    public List<XCustomer> allCustomers() {
+        List<Customer> customersFromRepoList = (List<Customer>) customersRepository.findAll();
+        List<XCustomer> xCustomersList = new ArrayList<>();
+
+        for(Customer customer : customersFromRepoList) {
+            XCustomer xCustomer = mapper.map(customer, XCustomer.class);
+            xCustomersList.add(xCustomer);
+        }
+        return xCustomersList;
     }
 
   public void editCustomer(XCustomer xCustomer){

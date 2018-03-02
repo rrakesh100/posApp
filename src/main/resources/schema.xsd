@@ -26,7 +26,7 @@
     <xsd:complexType name="x_supplier">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long"/>
-            <xsd:element name="mobile_number" type="xsd:long"/>
+            <xsd:element name="mobile_number" type="xsd:string"/>
             <xsd:element name="company_name" type="xsd:string"/>
             <xsd:element name="agency_name" type="xsd:string"/>
             <xsd:element name="description" type="xsd:string"/>
@@ -69,7 +69,7 @@
             <xsd:element name="email" type="xsd:string"/>
             <xsd:element name="address" type="xsd:string"/>
             <xsd:element name="company_name" type="xsd:string"/>
-            <xsd:element name="date_of_birth" type="xsd:time"/>
+            <xsd:element name="date_of_birth" type="xsd:string"/>
             <xsd:element name="deleted" type="xsd:boolean"/>
             <xsd:element name="points" type="xsd:int"/>
         </xsd:sequence>

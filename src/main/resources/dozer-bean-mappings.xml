@@ -60,4 +60,11 @@
     </field>
 
   </mapping>
+
+  <mapping date-format="MM/dd/yyyy HH:mm" map-null="true" map-empty-string="true" wildcard="true">
+    <class-a>com.pos.pojos.XCustomer</class-a>
+    <class-b>com.pos.model.Customer</class-b>
+
+  </mapping>
+
 </mappings>

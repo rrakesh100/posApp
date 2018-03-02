@@ -31,6 +31,12 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.8</version>
+        </dependency>
+
         <!-- Spring web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

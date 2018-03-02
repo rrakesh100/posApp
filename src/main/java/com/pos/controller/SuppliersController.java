@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.pos.commons.Response;
@@ -15,19 +16,22 @@ import com.pos.service.SupplierService;
 /**
  * Created by rrampall on 22/12/17.
  */
+@Controller
+@CrossOrigin(origins = "*")
+@RequestMapping("/v1")
 public class SuppliersController {
   @Autowired
   private SupplierService supplierService;
 
   @GetMapping(value="suppliers")
-  public List<XSupplier> listAll(){
+  public @ResponseBody List<XSupplier> listAll(){
     return supplierService.getAllSuppliers();
   }
 
   @GetMapping(value="suppliers/{supplierId}")
   public @ResponseBody
   XSupplier fetchSupplier(@PathVariable(value="supplierId") String supplierId ){
-    XSupplier it =  supplierService.fetchSupplier(Long.valueOf(supplierId));
+    XSupplier it =  supplierService.fetchSupplier(supplierId);
     return it;
   }
 

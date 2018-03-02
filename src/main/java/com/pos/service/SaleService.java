@@ -62,7 +62,7 @@ public class SaleService {
     salesRepository.save(saleFromRequest);
   }
 
-  public void addSale(XSale xSale){
+  public Sale addSale(XSale xSale){
 
     String invoiceNumber = generateInvoiceNumber(xSale);
 
@@ -75,7 +75,8 @@ public class SaleService {
       saleItem.setSale(sale);
     }
     updateDailySaleHistory(sale.getSaleItems());
-    salesRepository.save(sale);
+    Sale savedSale = salesRepository.save(sale);
+    return savedSale;
   }
 
   private void updateDailySaleHistory(List<SaleItem> saleItems) {

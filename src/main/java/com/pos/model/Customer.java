@@ -36,7 +36,7 @@ public class Customer {
 
     @Column(name="date_of_birth")
     @Getter @Setter
-    private Date dob;
+    private Date dateOfBirth;
 
     @Getter @Setter
     private boolean deleted;

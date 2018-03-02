@@ -28,7 +28,7 @@ public class ItemsController {
     @Autowired
     private ItemsService itemsService;
 
-    @Value("${rakesh}")
+    @Value("${shopName}")
     private String name;
 
     @GetMapping(value="items")

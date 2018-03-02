@@ -23,16 +23,13 @@ public class Supplier {
   private Long id;
   @Getter
   @Setter
-  private Long mobileNumber;
+  private String mobileNumber;
   @Getter
   @Setter
   private String companyName;
   @Getter
   @Setter
   private String agencyName;
-  @Getter
-  @Setter
-  private String description;
   @Getter
   @Setter
   private boolean deleted;

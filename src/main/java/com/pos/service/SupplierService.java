@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pos.model.Supplier;
 import com.pos.pojos.XSupplier;
 import com.pos.repository.SuppliersRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by rajithar on 14/1/18.
  */
+@Service
 public class SupplierService {
 
   @Autowired
@@ -33,8 +36,8 @@ public class SupplierService {
     return xSupplierList;
   }
 
-  public XSupplier fetchSupplier(Long id){
-    Supplier supplierFromRepo = suppliersRepository.findOne(id);
+  public XSupplier fetchSupplier(String  id){
+    Supplier supplierFromRepo = suppliersRepository.findOne(Long.valueOf(id));
     return mapper.map(supplierFromRepo, XSupplier.class);
   }
 

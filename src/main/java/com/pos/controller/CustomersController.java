@@ -1,6 +1,7 @@
 package com.pos.controller;
 
 import com.pos.commons.Response;
+import com.pos.model.Item;
 import com.pos.pojos.XCustomer;
 import com.pos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,27 +24,40 @@ public class CustomersController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping(value="customers/{mobileNumber}")
-    public @ResponseBody
-    XCustomer fetchItem(@PathVariable(value="mobileNumber") String mobileNumber ){
+    @GetMapping(value = "customers/{mobileNumber}")
+    public
+    @ResponseBody
+    XCustomer fetchItem(@PathVariable(value = "mobileNumber") String mobileNumber) {
         return customerService.fetchCustomer(mobileNumber);
     }
 
-    @PutMapping(value="customers")
-    public @ResponseBody
-    ResponseEntity<HttpStatus> editCustomer(@RequestBody XCustomer xCustomer){
+    @GetMapping(value = "customers")
+    public
+    @ResponseBody
+    List<XCustomer> allCustomers() {
+        return customerService.allCustomers();
+    }
+
+
+    @PutMapping(value = "customers")
+    public
+    @ResponseBody
+    ResponseEntity<HttpStatus> editCustomer(@RequestBody XCustomer xCustomer) {
         customerService.editCustomer(xCustomer);
         return new Response<HttpStatus>().noContent().build();
     }
 
-    @PostMapping (value="customers")
-    public void addCustomer(@RequestBody XCustomer xCustomer){
+    @PostMapping(value = "customers")
+    public void addCustomer(@RequestBody XCustomer xCustomer) {
         customerService.addCustomer(xCustomer);
     }
 
-    @GetMapping(value="filteredCustomers")
-    public @ResponseBody
-    List<String> getFilteredMobileNumbers(@RequestParam(value="searchPattern") String searchPattern) {
+    @GetMapping(value = "filteredCustomers")
+    public
+    @ResponseBody
+    List<String> getFilteredMobileNumbers(@RequestParam(value = "searchPattern") String searchPattern) {
         return customerService.getMobileNumberList(searchPattern);
     }
+
+
 }
