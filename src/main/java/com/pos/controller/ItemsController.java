@@ -28,8 +28,8 @@ public class ItemsController {
     @Autowired
     private ItemsService itemsService;
 
-    @Value("${shopName}")
-    private String name;
+
+    private String name="More super market";
 
     @GetMapping(value="items")
     public List<XItem> listAll(){

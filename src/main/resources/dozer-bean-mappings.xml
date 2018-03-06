@@ -13,10 +13,6 @@
     </field>
   </mapping>
   <mapping>
-    <class-a>com.pos.model.Procurement</class-a>
-    <class-b>com.pos.pojos.XProcurement</class-b>
-  </mapping>
-  <mapping>
     <class-a>com.pos.model.Supplier</class-a>
     <class-b>com.pos.pojos.XSupplier</class-b>
   </mapping>
@@ -61,10 +57,30 @@
 
   </mapping>
 
-  <mapping date-format="MM/dd/yyyy HH:mm" map-null="true" map-empty-string="true" wildcard="true">
+  <mapping date-format="MM/dd/yyyy HH:mm" map-null="false" map-empty-string="false" wildcard="true">
     <class-a>com.pos.pojos.XCustomer</class-a>
     <class-b>com.pos.model.Customer</class-b>
 
   </mapping>
+
+  <mapping>
+    <class-a>com.pos.pojos.XProcurementItem</class-a>
+    <class-b>com.pos.model.ProcurementItem</class-b>
+    <field>
+      <a>itemId</a>
+      <b>item.uid</b>
+    </field>
+  </mapping>
+
+  <mapping>
+    <class-a>com.pos.pojos.XProcurement</class-a>
+    <class-b>com.pos.model.Procurement</class-b>
+    <field>
+      <a>date</a>
+      <b>time</b>
+    </field>
+  </mapping>
+
+
 
 </mappings>

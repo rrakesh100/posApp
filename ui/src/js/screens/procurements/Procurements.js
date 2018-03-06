@@ -321,7 +321,7 @@ class Procurements extends React.Component {
      if(fieldName == 'supplierName')
       procurementDetails.supplierName= e.suggestion;
      if(fieldName == 'paymentType')
-       procurementDetails.paymentType= e.option;
+       procurementDetails.paymentType= e.option.value;
      if(fieldName == 'itemName')
       procurementDetails.itemName= e.suggestion;
 

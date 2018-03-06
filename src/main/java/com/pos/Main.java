@@ -19,6 +19,8 @@ public class Main {
 
 }
 
+//--spring.config.location=file:/Users/rrampall/work/lab/posApp/customer.properties
+
 
 //Install postgres
 

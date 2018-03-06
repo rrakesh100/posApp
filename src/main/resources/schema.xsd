@@ -43,6 +43,7 @@
             <xsd:element name="comment" type="xsd:string"/>
             <xsd:element name="payment_type" type="xsd:string"/>
             <xsd:element name="payment_amount" type="xsd:double"/>
+            <xsd:element name="supplier_id" type="xsd:string" />
             <xsd:element name="procurement_items" type="x_procurement_item" maxOccurs="unbounded" minOccurs="0"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -52,7 +53,7 @@
     <xsd:complexType name="x_procurement_item">
         <xsd:sequence>
             <xsd:element name="procurement_id" type="xsd:long"/>
-            <xsd:element name="item_id" type="xsd:long"/>
+            <xsd:element name="item_id" type="xsd:string"/>
             <xsd:element name="description" type="xsd:string"/>
             <xsd:element name="serial_number" type="xsd:long"/>
             <xsd:element name="quantity" type="xsd:double"/>
