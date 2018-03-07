@@ -19,7 +19,7 @@ public interface SuppliersRepository extends CrudRepository<Supplier,Long> {
 
   //https://stackoverflow.com/questions/20374437/jpa-query-creation-order-by
   @Transactional(readOnly = true)
-  List<Supplier> findAllByOrderById();
+  List<Supplier> findByDeletedFalseOrderById();
 
   @Query("select agencyName, id from Supplier s where s.agencyName like ':searchPattern'")
   Map<String, Long> findNameIdBySearchPattern(@Param("searchPattern") String searchPattern);

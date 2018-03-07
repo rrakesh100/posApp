@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.pos.model.Item;
 import org.dozer.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class SupplierService {
   private Mapper mapper;
 
   public List<XSupplier> getAllSuppliers(){
-    List<Supplier> supplierList = suppliersRepository.findAllByOrderById();
+    List<Supplier> supplierList = suppliersRepository.findByDeletedFalseOrderById();
     List<XSupplier> xSupplierList = new ArrayList<>();
     for(Supplier supplier : supplierList) {
       XSupplier xSupplier = mapper.map(supplier, XSupplier.class);
@@ -61,4 +62,13 @@ public class SupplierService {
   public Map<String, Long> getSupplierNameAndIdMapping(String searchPattern) {
     return suppliersRepository.findNameIdBySearchPattern(searchPattern);
   }
+
+
+  public void deleteSupplier(String supplierId) {
+    //we only do a soft delete of the item. so just mark the deleted flag = true
+    Supplier supplierFromRepo = suppliersRepository.findOne(Long.valueOf(supplierId));
+    supplierFromRepo.setDeleted(true);
+    suppliersRepository.save(supplierFromRepo);
+  }
+
 }

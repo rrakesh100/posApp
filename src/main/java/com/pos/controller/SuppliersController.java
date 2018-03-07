@@ -43,13 +43,21 @@ public class SuppliersController {
   }
 
   @PostMapping (value="suppliers")
-  public void addSupplier(@RequestBody XSupplier supplier){
+  public @ResponseBody ResponseEntity<HttpStatus> addSupplier(@RequestBody XSupplier supplier){
     supplierService.addSupplier(supplier);
+    return new Response<HttpStatus>().noContent().status(HttpStatus.CREATED.value()).build();
   }
 
   @GetMapping(value="filteredSuppliers")
   public @ResponseBody Map<String, Long> getFilteredSuppliers(@RequestParam(value="searchPattern")
     String searchPattern) {
     return supplierService.getSupplierNameAndIdMapping(searchPattern);
+  }
+
+  @DeleteMapping(value="suppliers/{id}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus> deleteItem(@PathVariable(value="id") String supplierId){
+    supplierService.deleteSupplier(supplierId);
+    return new Response<HttpStatus>().noContent().build();
   }
 }
