@@ -27,8 +27,8 @@ public class ProcurementsController {
   private ProcurementService procurementService;
 
   @GetMapping(value="procurements")
-  public Map<Date, Long> getAllProcurements(){
-    return procurementService.getAllProcurementIds();
+  public List<XProcurement> getAllProcurements(){
+    return procurementService.getAllProcurements();
   }
 
   @GetMapping(value="procurements/{procurementId}")

@@ -70,6 +70,10 @@
       <a>itemId</a>
       <b>item.uid</b>
     </field>
+    <field>
+      <a>procurementId</a>
+      <b>procurement.procurementId</b>
+    </field>
   </mapping>
 
   <mapping>

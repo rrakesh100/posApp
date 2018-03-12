@@ -1,24 +1,24 @@
 package com.pos.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import com.pos.model.Item;
 import com.pos.model.ItemPurchaseHistory;
+import com.pos.model.Procurement;
 import com.pos.model.ProcurementItem;
+import com.pos.pojos.XProcurement;
+import com.pos.pojos.XProcurementItem;
 import com.pos.repository.ItemPurchaseHistoryRepository;
 import com.pos.repository.ItemsRepository;
+import com.pos.repository.ProcurementsRepository;
 import org.dozer.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pos.model.Procurement;
-import com.pos.pojos.XProcurement;
-import com.pos.repository.ProcurementsRepository;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rajithar on 13/1/18.
@@ -38,13 +38,23 @@ public class ProcurementService {
   @Autowired
   private ItemPurchaseHistoryRepository itemPurchaseHistoryRepository;
 
-  public Map<Date, Long> getAllProcurementIds() {
-    return procurementsRepository.findAllProcurementIds();
+  public List<XProcurement> getAllProcurements() {
+    List<Procurement> allProcs = (List<Procurement>) procurementsRepository.findAll();
+    List<XProcurement> returnProcs = new ArrayList<>();
+    for(Procurement p : allProcs) {
+      returnProcs.add(mapper.map(p, XProcurement.class));
+    }
+    return returnProcs;
   }
 
   public XProcurement fetchProcurement(Long procurementId) {
     Procurement procurement = procurementsRepository.findOne(procurementId);
-    return mapper.map(procurement, XProcurement.class);
+    XProcurement xProcurement =  mapper.map(procurement, XProcurement.class);
+    for(ProcurementItem procurementItem : procurement.getProcurementItems()){
+      XProcurementItem xProcurementItem = mapper.map(procurementItem, XProcurementItem.class);
+      xProcurement.getProcurementItems().add(xProcurementItem);
+    }
+    return xProcurement;
   }
 
   public void editProcurement(XProcurement xProcurement){
@@ -56,9 +66,13 @@ public class ProcurementService {
 
   public void addProcurement(XProcurement xProcurement){
     Procurement procurement = mapper.map(xProcurement, Procurement.class);
+    for(ProcurementItem pItem : procurement.getProcurementItems()) {
+      pItem.setProcurement(procurement);
+    }
     procurementsRepository.save(procurement);
-    updateItemPurchaseHistory(procurement);
-    updateItemsWithQuantity(procurement);
+    //TODO LATER
+//    updateItemPurchaseHistory(procurement);
+//    updateItemsWithQuantity(procurement);
   }
 
   private void updateItemsWithQuantity(Procurement procurement) {

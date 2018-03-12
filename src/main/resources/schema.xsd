@@ -39,7 +39,7 @@
     <xsd:complexType name="x_procurement">
         <xsd:sequence>
             <xsd:element name="procurement_id" type="xsd:long"/>
-            <xsd:element name="date" type="xsd:dateTime"/>
+            <xsd:element name="date" type="xsd:string"/>
             <xsd:element name="comment" type="xsd:string"/>
             <xsd:element name="payment_type" type="xsd:string"/>
             <xsd:element name="payment_amount" type="xsd:double"/>
@@ -56,9 +56,9 @@
             <xsd:element name="item_id" type="xsd:string"/>
             <xsd:element name="description" type="xsd:string"/>
             <xsd:element name="serial_number" type="xsd:long"/>
-            <xsd:element name="quantity" type="xsd:double"/>
-            <xsd:element name="units" type="xsd:string"/>
-            <xsd:element name="cost_price" type="xsd:double"/>
+            <xsd:element name="quantityPurchased" type="xsd:double"/>
+            <xsd:element name="number_of_units" type="xsd:integer"/>
+            <xsd:element name="item_cost_price" type="xsd:double"/>
             <xsd:element name="item_unit_price" type="xsd:double"/>
         </xsd:sequence>
     </xsd:complexType>

@@ -13,7 +13,6 @@ import lombok.ToString;
  * Created by rajithar on 13/1/18.
  */
 
-@ToString
 @Entity
 @Table(name="procurements")
 public class Procurement {
