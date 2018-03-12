@@ -19,7 +19,6 @@ import TextInput from 'grommet/components/TextInput';
 import Layer from 'grommet/components/Layer';
 import Edit from 'grommet/components/icons/base/Edit';
 import CloseIcon from 'grommet/components/icons/base/Close';
-
 import Heading from 'grommet/components/Heading';
 
 import Item from './Item';
@@ -48,12 +47,11 @@ class Items extends React.Component {
   loadItems() {
 
     allItems().then((response) => {
-      this.setState( {
+      this.setState({
         items : response.data
-      }
-        )
+      })
     }).catch(
-
+      console.log("Error occured while loding the items")
     );
   }
 

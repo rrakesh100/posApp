@@ -14,8 +14,6 @@ import {
 
 class Customer extends React.Component {
 
-
-
   constructor(){
     super();
     this.defaultState = {
@@ -73,7 +71,7 @@ class Customer extends React.Component {
     if(match)
       customerId=match.params.id;
     else
-      customerId = nextProps.itemId;
+      customerId = nextProps.customerId;
 
     if(customerId != 0){
       this.setState({
@@ -83,7 +81,7 @@ class Customer extends React.Component {
       getCustomer(customerId).then((response) => {
       this.setState({...response.data});
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
     }else{

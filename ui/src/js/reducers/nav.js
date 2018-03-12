@@ -17,6 +17,7 @@ const initialState = {
     { path: '/sales', label: 'SALES' },
     { path: '/employees', label: 'EMPLOYEES' },
     { path: '/customers', label: 'CUSTOMERS' },
+    { path: '/suppliers', label: 'SUPPLIERS' },
     { path: '/dashboard', label: 'REPORTS' }
   ]
 };

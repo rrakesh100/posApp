@@ -18,6 +18,19 @@ import Heading from 'grommet/components/Heading';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import Status from 'grommet/components/icons/Status';
+import {
+  allSuppliers, getSuppliersWithPattern, getSupplier
+} from '../../actions/suppliers'
+import {
+  getItem, getFilteredItems
+} from '../../actions/items'
+import {
+  addProcurement
+} from '../../actions/procurements'
+import moment from 'moment'
+
+
+
 
 
 class Procurements extends React.Component {
@@ -34,8 +47,8 @@ class Procurements extends React.Component {
      this.onAddProcurementClicked=this.onAddProcurementClicked.bind(this);
 
      const supplierOptions = [
-       {value: 'value1', label: 'Value 1' },
-       {value: 'value2', label: 'Value 2' }
+       {value: 'value1', label: 'value1' },
+       {value: 'value2', label: 'value2' }
      ];
 
      const itemSuggestions = [
@@ -54,9 +67,9 @@ class Procurements extends React.Component {
          supplierName : {'label' : '', 'value': ''},
          itemSuggestions,
          itemName : {'label' : '', 'value': ''},
-         itemDetails : [],
+         procurementItems : [],
          currentItemDetail: {},
-         totalCost : 0
+         paymentAmount : 0
        },
        procurements : [{'name': '13 January 2018'}]
      }
@@ -80,26 +93,86 @@ class Procurements extends React.Component {
    }
 
    submitProcurement(){
-     //
+     console.log('#######################');
      const { procurementDetails } = this.state;
      this.setState({
        renderAddNewProcurement : false
-     })
+     });
+     let payload = {};
+
+     payload.procurementItems = procurementDetails.procurementItems;
+     payload.paymentAmount = procurementDetails.paymentAmount;
+     payload.date=procurementDetails.date;
+     payload.paymentType=procurementDetails.paymentType;
+
+     addProcurement(payload).then(() => console.log("successfully added"))
+        .catch(console.log("failed to add"))
+
    }
 
+      populateOptions(value) {
+
+        let { supplierNameInput } = this.state;
+        const { procurementDetails } = this.state;
+        supplierNameInput = value;
+        this.state.procurementDetails.supplierName=supplierNameInput;
+        this.setState({
+          supplierNameInput
+        })
+        allSuppliers(supplierNameInput).then((response) => {
+          let filteredSuppliers = response.data;
+          let supplierOptions = [];
+          for(let supplier of filteredSuppliers) {
+            let suggestion = {
+              value : supplier.id,
+              label : supplier.companyName
+              }
+              supplierOptions.push(suggestion);
+          }
+
+          procurementDetails.supplierOptions = supplierOptions;
+          this.setState({
+            procurementDetails : procurementDetails
+          })
+          console.log(this.state)
+          console.log(response.data)
+        }).catch(() => console.log('error occured while fetching supplier details'))
+      }
 
    valueEntered(fieldName,e) {
-     console.log('---------');
      console.log(this.state);
       console.log(fieldName);
       console.log(e);
 
-      //TODO confirm with Ram if this is the right way
-      // const value = e.target.value; const newCurrentItemDetail = {};
-      if(fieldName == 'supplierName')
-        this.populateOptions(value);
+      if(fieldName === 'supplierName') {
+        this.populateOptions(e.target.value);
+      }else if(fieldName === 'itemName') {
+          let { itemNameInput } = this.state;
 
-      if(fieldName == 'quantity' || fieldName == 'costprice' || fieldName == 'sellingprice') {
+          itemNameInput=e.target.value;
+          this.state.procurementDetails.itemName=itemNameInput;
+
+          this.setState({
+            itemNameInput
+          })
+          getFilteredItems(itemNameInput).then((response) => {
+            let filteredItems = response.data;
+            let itemSuggestions = [];
+            for(let item of filteredItems) {
+              let suggestion = {
+                value : item.barcode,
+                label : item.name
+              }
+              itemSuggestions.push(suggestion);
+            }
+
+            this.setState({
+              itemSuggestions :  itemSuggestions
+             })
+          }).catch(() => console.log('error occured while fetching getItem'));
+        }
+
+      if(fieldName == 'quantity' || fieldName == 'costPrice' || fieldName == 'sellingprice') {
         let  procurementDetails  =  { ...this.state.procurementDetails };
         let newCurrentItemDetail =  {};
         const currentItemDetail = procurementDetails.currentItemDetail;
@@ -109,23 +182,17 @@ class Procurements extends React.Component {
           procurementDetails
         }, () => console.log(this.state));
       }
-
-
    }
 
-   populateOptions(value) {
-     //query here
-     //this.setState
-   }
 
    productDetailsAdded(){
      let { procurementDetails } = this.state;
-     let itemDetails = procurementDetails.itemDetails;
+     let procurementItems = procurementDetails.procurementItems;
      let barCode = procurementDetails.itemName.value;
      let currentItemDetail = procurementDetails.currentItemDetail;
      currentItemDetail = { ...currentItemDetail ,  name : procurementDetails.itemName.label , barcode : barCode}
-     itemDetails.push(currentItemDetail);
-     procurementDetails.totalCost+= Number(currentItemDetail.costprice);
+     procurementItems.push(currentItemDetail);
+     procurementDetails.paymentAmount+= Number(currentItemDetail.costPrice);
      procurementDetails.itemName={'label' : '', 'value': ''};
 
       this.setState({
@@ -158,7 +225,7 @@ class Procurements extends React.Component {
                        <TextInput name="quantity" onDOMChange={this.valueEntered.bind(this, 'quantity')} />
                     </FormField>
                     <FormField label='Enter cost price'>
-                        <TextInput name="quantity" onDOMChange={this.valueEntered.bind(this, 'costprice')} />
+                        <TextInput name="quantity" onDOMChange={this.valueEntered.bind(this, 'costPrice')} />
                     </FormField>
                     <FormField label='Enter selling price per unit'>
                         <TextInput name="quantity" onDOMChange={this.valueEntered.bind(this, 'sellingprice')} />
@@ -181,14 +248,14 @@ class Procurements extends React.Component {
 
    renderAddNewProcurement() {
      const { renderAddNewProcurement } = this.state;
-     const { itemDetails , totalCost } = this.state.procurementDetails;
+     const { procurementItems , paymentAmount } = this.state.procurementDetails;
      //For rich suggestions
      // const OPTIONS = [
      //   {value: 'value1', label: <span><Status value="ok"/>Value 1</span> },
      //   {value: 'value2', label: <span><Status value="warning"/>Value 2</span> },
      // ];
      const { supplierOptions } = this.state.procurementDetails;
-     const { itemSuggestions } = this.state.procurementDetails;
+     const { itemSuggestions } = this.state;
 
      if(!renderAddNewProcurement) {
        return null;
@@ -232,19 +299,19 @@ class Procurements extends React.Component {
           </Label>
           </div>
           <div className="tableSummary">
-              <Value value={totalCost}
+              <Value value={paymentAmount}
                 label='Total Cost'
                 units='$'
                 responsive={false}
                 reverse={false}
                 align='end' />
-                <Value value={itemDetails.length}
+                <Value value={procurementItems.length}
                 label='No. of Items'
                 responsive={false}
                 reverse={false}
                 align='end' />
           </div>
-          <Table  className="tableContent" scrollable={true}>
+          <Table  className="tableContent" scrollable={true} >
             <thead>
               <tr>
               <th>
@@ -272,12 +339,12 @@ class Procurements extends React.Component {
               </thead>
               <tbody>
                 {
-                  itemDetails.map((item, index) => {
+                  procurementItems.map((item, index) => {
                     return <TableRow>
                     <td>{index+1}</td>
                     <td>{item['name']}</td>
                     <td>{item['quantity']}</td>
-                    <td>{item['costprice']}</td>
+                    <td>{item['costPrice']}</td>
                     <td>{item['sellingprice']}</td>
                     <td>0</td>
                     <td>
@@ -309,30 +376,28 @@ class Procurements extends React.Component {
    }
 
 
-   fieldEntered(fieldName,e, a, b){
+   fieldEntered(fieldName, e, a, b) {
      console.log(fieldName + 'clicked');
      console.log(e);
      console.log(a);
      console.log(b);
 
      const { procurementDetails } =  this.state ;
-     if(fieldName == 'date')
-      procurementDetails.date=e;
+     if(fieldName == 'date') {
+       var a = moment(e);
+       procurementDetails.date = a;
+       console.log("time ============ " + a);
+     }
      if(fieldName == 'supplierName')
-      procurementDetails.supplierName= e.suggestion;
+      procurementDetails.supplierName = e.suggestion;
      if(fieldName == 'paymentType')
-       procurementDetails.paymentType= e.option.value;
+       procurementDetails.paymentType = e.option;
      if(fieldName == 'itemName')
-      procurementDetails.itemName= e.suggestion;
-
-
-
+      procurementDetails.itemName = e.suggestion;
 
      this.setState(procurementDetails);
      console.log(this.state);
-
-
-   }
+ }
 
    renderProcurementsHomePage() {
      const { procurements , renderAddNewProcurement } = this.state;
@@ -383,12 +448,9 @@ class Procurements extends React.Component {
           { this.renderAddNewProcurement()}
           { this.renderProcurementsHomePage()}
        </div>
-
-
      );
    }
 
 }
-
 
 export default Procurements;

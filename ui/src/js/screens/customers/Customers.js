@@ -39,7 +39,7 @@ class Customers extends React.Component {
       customers : response.data
     } )
   }).catch(
-
+    console.log("error occured while loading the page")
   );
 }
 
@@ -108,7 +108,6 @@ onAddCustomers() {
             onClick={this.onCloseModal.bind(this)}
             />
       </Layer>
-
     )
   }
 

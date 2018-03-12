@@ -13,9 +13,6 @@ import {
 
 
 class Item extends React.Component {
-
-
-
   constructor(){
     super();
     this.defaultState = {
