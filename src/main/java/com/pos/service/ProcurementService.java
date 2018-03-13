@@ -70,9 +70,8 @@ public class ProcurementService {
       pItem.setProcurement(procurement);
     }
     procurementsRepository.save(procurement);
-    //TODO LATER
-//    updateItemPurchaseHistory(procurement);
-//    updateItemsWithQuantity(procurement);
+     updateItemPurchaseHistory(procurement);
+     updateItemsWithQuantity(procurement);
   }
 
   private void updateItemsWithQuantity(Procurement procurement) {
@@ -86,11 +85,11 @@ public class ProcurementService {
 
   private void updateItemPurchaseHistory(Procurement procurement) {
 
-    List<ItemPurchaseHistory> purchaseItems = new ArrayList<>();LocalDate now = LocalDate.now();
+    List<ItemPurchaseHistory> purchaseItems = new ArrayList<>();Date now = new Date();
     for(ProcurementItem procurementItem : procurement.getProcurementItems()){
       ItemPurchaseHistory itemPurchaseHistory = new ItemPurchaseHistory();
-      itemPurchaseHistory.setItemId(procurementItem.getItem().getUid());
-      itemPurchaseHistory.setUnits(procurementItem.getItem().getUnits());
+      itemPurchaseHistory.setItem(procurementItem.getItem());
+      itemPurchaseHistory.setUnits(String.valueOf(procurementItem.getNumberOfUnits()));
       itemPurchaseHistory.setPrice(procurementItem.getItemCostPrice());
       itemPurchaseHistory.setQuantity(procurementItem.getQuantityPurchased());
       itemPurchaseHistory.setDate(now);

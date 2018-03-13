@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -23,8 +24,10 @@ public class ItemPurchaseHistory {
 
     @Getter
     @Setter
-    @Column(name="item_id")
-    private String itemId;
+    @OneToOne
+    @JoinColumn(name = "item_id")
+    private Item item;
+
 
     @Getter
     @Setter
@@ -41,6 +44,6 @@ public class ItemPurchaseHistory {
     @Getter
     @Setter
     @Column(name="time_stamp")
-    private LocalDate date;
+    private Date date;
 
 }

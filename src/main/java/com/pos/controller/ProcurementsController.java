@@ -32,19 +32,19 @@ public class ProcurementsController {
   }
 
   @GetMapping(value="procurements/{procurementId}")
-  public @ResponseBody XProcurement fetchItem(@PathVariable(value="procurementId") String procurementId ){
+  public @ResponseBody XProcurement fetchProcurement(@PathVariable(value="procurementId") String procurementId ){
     return procurementService.fetchProcurement(Long.valueOf(procurementId));
   }
 
   @PutMapping(value="procurements")
   public @ResponseBody
-  ResponseEntity<HttpStatus> editItem(@RequestBody XProcurement xProcurement){
+  ResponseEntity<HttpStatus> editProcurement(@RequestBody XProcurement xProcurement){
     procurementService.editProcurement(xProcurement);
     return new Response<HttpStatus>().noContent().build();
   }
 
   @PostMapping (value="procurements")
-  public void addItem(@RequestBody XProcurement xProcurement){
+  public void addProcurement(@RequestBody XProcurement xProcurement){
     procurementService.addProcurement(xProcurement);
   }
 
