@@ -78,4 +78,3 @@ public class ItemsController {
     }
 }
 
-//when to use response body
