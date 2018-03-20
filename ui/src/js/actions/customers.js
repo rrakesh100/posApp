@@ -16,7 +16,7 @@ export function deleteCustomer(id) {
 
 
 export function getCustomer(id) {
-  return axios.get('http://35.154.199.100:8080/v1/customers'+id);
+  return axios.get('http://35.154.199.100:8080/v1/customers/'+ id);
 }
 
 
@@ -25,5 +25,5 @@ export function allCustomers() {
 }
 
 export function getCustomersWithPattern(pattern) {
-  return axios.get('http://35.154.199.100:8080/v1/customers' + pattern);
+  return axios.get('http://35.154.199.100:8080/v1/filteredCustomers?searchPattern=' + pattern);
 }

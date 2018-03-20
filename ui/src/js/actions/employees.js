@@ -5,25 +5,25 @@ import axios from 'axios';
 
 
 export function createEmployee(employee) {
-  return axios.post('http://localhost:8080/v1/items',  {...employee});
+  return axios.post('http://35.154.199.100:8080/v1/items',  {...employee});
 }
 
 export function editEmployee(employee) {
-  return axios.put('http://localhost:8080/v1/items',  {...employee});
+  return axios.put('http://35.154.199.100:8080/v1/items',  {...employee});
 }
 
 export function deleteEmployee(employee) {
-  return axios.delete('http://localhost:8080/v1/items'+ id);
+  return axios.delete('http://35.154.199.100:8080/v1/items'+ id);
 }
 
 
 export function getEmployee(id) {
-  return axios.get('http://localhost:8080/v1/items/' + id);
+  return axios.get('http://35.154.199.100:8080/v1/items/' + id);
 }
 
 
 export function allEmployees() {
-  return axios.get('http://localhost:8080/v1/items/');
+  return axios.get('http://35.154.199.100:8080/v1/items/');
 }
 
 //
@@ -35,7 +35,7 @@ export function allEmployees() {
 // export function loadEmployees() {
 //    return  dispatch => (
 //      $.ajax({
-//            url:'http://localhost:8080/v1/items',
+//            url:'http://35.154.199.100:8080/v1/items',
 //            success: (data) => {
 //              dispatch({ type: EMPLOYEES_LOAD, data });
 //            }

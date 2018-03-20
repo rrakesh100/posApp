@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 export function getAllEmployees(){
   $.ajax({
-        url:'http://localhost:8080/v1/items',
+        url:'http://35.154.199.100:8080/v1/items',
         success: (data) => {
           console.log(data);
           return data;
