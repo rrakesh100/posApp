@@ -48,7 +48,7 @@ class Item extends React.Component {
         getItem(itemId).then((response) => {
         this.setState({...response.data});
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         });
       }else{

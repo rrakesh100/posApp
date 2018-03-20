@@ -29,11 +29,8 @@ class sales extends React.Component {
     allSales().then((response) => {
       this.setState({
         sales : response.data
-      }
-    )
-    }).catch(
-
-    );
+      })
+    }).catch(e => console.log(e));
   }
 
 renderViewSaleModal() {

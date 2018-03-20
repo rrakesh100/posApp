@@ -44,6 +44,7 @@ class Supplier extends React.Component {
         const presentState = this.state
         const newState = {...presentState, ...response.data}
         this.setState(newState);
+        console.log(this.state)
       }).catch((error) => {
         console.log(error)
       })

@@ -11,12 +11,12 @@ export function editCustomer(customer) {
 }
 
 export function deleteCustomer(id) {
-  return axios.delete('http://35.154.199.100:8080/v1/customers'+id);
+  return axios.delete('http://35.154.199.100:8080/v1/customers/'+id);
 }
 
 
 export function getCustomer(id) {
-  return axios.get('http://35.154.199.100:8080/v1/customers/'+ id);
+  return axios.get('http://35.154.199.100:8080/v1/customers/'+id);
 }
 
 

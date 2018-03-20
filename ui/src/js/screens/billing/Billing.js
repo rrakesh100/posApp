@@ -164,6 +164,7 @@ componentDidMount() {
         console.log(response);
         this.setState({
           customerName : response.data.name
+
         })
       }).catch(() => console.log('error occured while trying to get customer related info'));
     }else if(field === 'itemName') {

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Procurement from './Procurement';
 import SearchInput from 'grommet/components/SearchInput';
 import DateTime from 'grommet/components/DateTime';
 import Select from 'grommet/components/Select';
@@ -18,6 +19,7 @@ import Heading from 'grommet/components/Heading';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
 import Status from 'grommet/components/icons/Status';
+import DocumentText from 'grommet/components/icons/base/DocumentText';
 import {
   allSuppliers, getSuppliersWithPattern, getSupplier
 } from '../../actions/suppliers'
@@ -25,7 +27,7 @@ import {
   getItem, getFilteredItems
 } from '../../actions/items'
 import {
-  addProcurement
+  allProcurements, addProcurement
 } from '../../actions/procurements'
 import moment from 'moment'
 
@@ -45,10 +47,12 @@ class Procurements extends React.Component {
      this.populateOptions=this.populateOptions.bind(this);
      this.submitProcurement=this.submitProcurement.bind(this);
      this.onAddProcurementClicked=this.onAddProcurementClicked.bind(this);
+     this.viewProcurementDetails=this.viewProcurementDetails.bind(this);
+     this.closeProcurementLayer=this.closeProcurementLayer.bind(this);
 
      const supplierOptions = [
-       {value: 'value1', label: 'value1' },
-       {value: 'value2', label: 'value2' }
+       {value: '', label: '' },
+       {value: '', label: '' }
      ];
 
      const itemSuggestions = [
@@ -61,6 +65,7 @@ class Procurements extends React.Component {
      this.state = {
        renderAddProduct : false,
        renderAddNewProcurement : false,
+       renderProcurementDetails : false,
        procurementDetails : {
          date : null,
          supplierOptions,
@@ -71,7 +76,17 @@ class Procurements extends React.Component {
          currentItemDetail: {},
          paymentAmount : 0
        },
-       procurements : [{'name': '13 January 2018'}]
+       procurements : [
+         {
+           comment : '',
+           date : null,
+           paymentAmount : 0,
+           paymentType : '',
+           procurementId : 0,
+           procurementItems : [],
+           supplierId : 0
+         }
+        ]
      }
    }
 
@@ -79,6 +94,22 @@ class Procurements extends React.Component {
    // componentWillUnmount(){
    //   this.forceUpdate();
    // }
+
+   componentDidMount() {
+     this.allProcurements()
+        }
+
+    allProcurements() {
+      const { procurements } = this.state
+        allProcurements().then((response) => {
+          this.setState({
+            procurements : response.data
+          })
+          console.log(response.data)
+          console.log(this.state)
+          console.log(procurements)
+        }).catch(e => console.log(e));
+      }
 
    addProduct(){
      this.setState({
@@ -91,23 +122,49 @@ class Procurements extends React.Component {
        renderAddNewProcurement : true
      })
    }
+   viewProcurementDetails(id) {
+     this.setState({
+       renderProcurementDetails : true,
+       procurementIdForModal : id
+
+     }, () => console.log(this.state))
+   }
 
    submitProcurement(){
      console.log('#######################');
-     const { procurementDetails } = this.state;
-     this.setState({
-       renderAddNewProcurement : false
-     });
+     const { procurementDetails, procurements } = this.state;
+
      let payload = {};
 
-     payload.procurementItems = procurementDetails.procurementItems;
-     payload.paymentAmount = procurementDetails.paymentAmount;
      payload.date=procurementDetails.date;
-     payload.paymentType=procurementDetails.paymentType;
+     payload.paymentType=procurementDetails.paymentType.value;
+     payload.paymentAmount = procurementDetails.paymentAmount;
+     payload.supplierId=procurementDetails.supplierName.value;
+     payload.comment="hi"
+     // payload.procurementItems=procurementDetails.procurementItems;
 
-     addProcurement(payload).then(() => console.log("successfully added"))
-        .catch(console.log("failed to add"))
-
+     let procurementItemsPayload =  procurementDetails.procurementItems;
+     let itemsArray = [];
+     procurementItemsPayload.map((item, index) => {
+        let arrayItem = {};
+        arrayItem.itemId = item.barcode;
+       arrayItem.description = item.name;
+       arrayItem.serialNumber = index;
+       arrayItem.quantityPurchased = item.quantity;
+       arrayItem.itemCostPrice = item.costPrice;
+       arrayItem.itemUnitPrice = item.sellingprice;
+       itemsArray.push(arrayItem);
+ 		})
+    payload.procurementItems = itemsArray;
+     console.log(payload)
+     console.log(this.state)
+     let createProcurement = addProcurement(payload);
+     createProcurement.then((response) =>
+     this.setState({
+       renderAddNewProcurement : false
+     }, this.allProcurements())
+          )
+        .catch(e => console.log(e));
    }
 
       populateOptions(value) {
@@ -167,7 +224,7 @@ class Procurements extends React.Component {
             }
 
             this.setState({
-              itemSuggestions :  itemSuggestions
+              itemSuggestions :itemSuggestions
              })
           }).catch(() => console.log('error occured while fetching getItem'));
         }
@@ -185,7 +242,8 @@ class Procurements extends React.Component {
    }
 
 
-   productDetailsAdded(){
+   productDetailsAdded() {
+
      let { procurementDetails } = this.state;
      let procurementItems = procurementDetails.procurementItems;
      let barCode = procurementDetails.itemName.value;
@@ -339,13 +397,13 @@ class Procurements extends React.Component {
               </thead>
               <tbody>
                 {
-                  procurementItems.map((item, index) => {
-                    return <TableRow>
+                  procurementItems.map((procurement, index) => {
+                    return <TableRow key={index}>
                     <td>{index+1}</td>
-                    <td>{item['name']}</td>
-                    <td>{item['quantity']}</td>
-                    <td>{item['costPrice']}</td>
-                    <td>{item['sellingprice']}</td>
+                    <td>{procurement['name']}</td>
+                    <td>{procurement['quantity']}</td>
+                    <td>{procurement['costPrice']}</td>
+                    <td>{procurement['sellingprice']}</td>
                     <td>0</td>
                     <td>
                       <Button icon={<Edit />}
@@ -385,7 +443,8 @@ class Procurements extends React.Component {
      const { procurementDetails } =  this.state ;
      if(fieldName == 'date') {
        var a = moment(e);
-       procurementDetails.date = a;
+       console.log(a)
+       procurementDetails.date =+a;
        console.log("time ============ " + a);
      }
      if(fieldName == 'supplierName')
@@ -399,6 +458,30 @@ class Procurements extends React.Component {
      console.log(this.state);
  }
 
+closeProcurementLayer() {
+  this.setState({
+    renderProcurementDetails : false
+  })
+}
+ renderProcurementDetails() {
+   console.log(this.state);
+   const { procurements, renderProcurementDetails, procurementIdForModal } = this.state;
+   console.log(procurements);
+   if(renderProcurementDetails) {
+     return (
+       <Layer closer={true}
+       overlayClose={true}
+        flush={true} onClose={this.closeProcurementLayer.bind(this)}
+        component={Procurement}>
+        <Procurement procurementId={procurementIdForModal} />
+
+       </Layer>
+     );
+   } else {
+     return
+   }
+}
+
    renderProcurementsHomePage() {
      const { procurements , renderAddNewProcurement } = this.state;
      if(!renderAddNewProcurement) {
@@ -407,26 +490,35 @@ class Procurements extends React.Component {
          <div className="addEntity">
          <Button icon={<Add />}
            label='Add Procurement'
-           onClick={this.onAddProcurementClicked.bind(this)} primary='true'/>
+           onClick={this.onAddProcurementClicked.bind(this)} primary={true}/>
 
          </div>
-         <Table  className="tableContent" scrollable={true}>
+         <Table  className="tableContent" scrollable={true} >
            <thead>
              <tr>
-             <th>
-               Serial #
-             </th>
-             <th>
-               Added on
-             </th>
+             <th>Id</th>
+             <th>Date</th>
+             <th>Comment</th>
+             <th>Payment Amount</th>
+             <th>Payment Type</th>
+             <th>Details</th>
              </tr>
              </thead>
              <tbody>
                {
-                 procurements.map((item, index) => {
-                   return <TableRow>
+                 procurements.map((procurement, index) => {
+                   return <TableRow key={index}>
                    <td>{index+1}</td>
-                   <td>{item['name']}</td>
+                   <td>{procurement['date']}</td>
+                   <td>{procurement['comment']}</td>
+                   <td>{procurement['paymentAmount']}</td>
+                   <td>{procurement['paymentType']}</td>
+                   <td>
+                     <Button icon={<DocumentText />}
+                     label='view'
+                     onClick={this.viewProcurementDetails.bind(this, procurement.procurementId)}
+                     />
+                   </td>
                    </TableRow>
                  })
                }
@@ -445,8 +537,9 @@ class Procurements extends React.Component {
      return(
        <div className="procurements">
           { this.renderAddProduct() }
-          { this.renderAddNewProcurement()}
-          { this.renderProcurementsHomePage()}
+          { this.renderAddNewProcurement() }
+          { this.renderProcurementsHomePage() }
+          { this.renderProcurementDetails() }
        </div>
      );
    }
