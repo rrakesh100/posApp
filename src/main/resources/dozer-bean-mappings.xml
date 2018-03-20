@@ -86,11 +86,5 @@
   </mapping>
 
 
-  <mapping>
-    <class-a>com.pos.security.UserDTO</class-a>
-    <class-b>com.pos.security.User</class-b>
-  </mapping>
-
-
 
 </mappings>
